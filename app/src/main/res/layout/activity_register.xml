@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_userid"
+        android:textColor="@color/main_text_1"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/input_register_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/inputId"
+        android:inputType="text"
+        android:maxLength="18"
+        android:maxLines="1"
+        android:minHeight="48dp"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_username"
+        android:textColor="@color/main_text_1"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/input_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/inputUsername"
+        android:inputType="text"
+        android:maxLength="18"
+        android:maxLines="1"
+        android:minHeight="48dp"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/login_password"
+        android:textColor="@color/main_text_1"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/input_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/inputPassword"
+        android:inputType="text|textPassword"
+        android:maxLength="18"
+        android:maxLines="1"
+        android:minHeight="48dp"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/confirm_pwd"
+        android:textColor="@color/main_text_1"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/input_confirm_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/confirmPassword"
+        android:inputType="text|textPassword"
+        android:maxLength="18"
+        android:maxLines="1"
+        android:minHeight="48dp"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/register"
+        android:textSize="18sp" />
+</LinearLayout>

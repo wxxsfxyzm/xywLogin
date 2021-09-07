@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomAppTheme_textInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/colorAccent</item><!--默认显示下划线的颜色-->
+        <item name="colorControlActivated">@color/colorAccent</item><!--点击后下划线的颜色-->
+    </style>
+</resources>

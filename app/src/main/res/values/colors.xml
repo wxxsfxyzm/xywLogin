@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    这个用于普通亮色模式主色调-->
+
+    <color name="main_bg_1">@android:color/white</color>
+    <!--    这个用于辅助背景色调-->
+    <color name="main_bg_2">#999999</color>
+    <!--    主要文字颜色 用于主标题等-->
+    <color name="main_text_1">@android:color/black</color>
+    <!--    次要文字颜色 用于副标题-->
+    <color name="main_text_2">#1B1818</color>
+    <!--    注册界面按钮颜色 -->
+    <color name="register_button">@color/teal_700</color>
+
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#FA7298</color>
+    <color name="colorPrimaryDark">#FA7298</color>
+    <color name="colorAccent">@color/teal_700</color>
+</resources>
