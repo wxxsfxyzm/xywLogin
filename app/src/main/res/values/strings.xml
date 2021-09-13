@@ -37,4 +37,11 @@
     <string name="get_detail">明细查询</string>
     <string name="add_balance">余额充值</string>
     <string name="choose_operation">请选择操作：</string>
+    <string name="your_money_remaining">您的余额为：</string>
+    <string name="_0_yuan">0元</string>
+    <string name="choose_money_to_deposit">请选择您要充值的金额：</string>
+    <string name="_10_yuan">10元</string>
+    <string name="_30_yuan">30元</string>
+    <string name="_50_yuan">50元</string>
+    <string name="_100_yuan">100元</string>
 </resources>

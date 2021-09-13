@@ -1,5 +1,6 @@
 package com.carlyu.logindemo.balance
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +8,8 @@ import com.carlyu.logindemo.R
 import com.carlyu.logindemo.base.BaseActivity
 import com.carlyu.logindemo.bean.Accounts
 import com.carlyu.logindemo.bean.User
+import com.carlyu.logindemo.utils.toast
+import kotlinx.android.synthetic.main.activity_balance.*
 import java.math.BigDecimal
 
 class BalanceActivity : BaseActivity(), BalanceContract.View {
@@ -21,9 +24,16 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
 
 
     companion object {
+        fun startActivity(ctx: Context, user: User) {
+            val intent = Intent(ctx, BalanceActivity::class.java)
+
+            intent.putExtra("user", user)
+            ctx.startActivity(intent)
+        }
+
         fun startActivity(ctx: Context) {
-            val i = Intent(ctx, BalanceActivity::class.java)
-            ctx.startActivity(i)
+            val intent = Intent(ctx, BalanceActivity::class.java)
+            ctx.startActivity(intent)
         }
     }
 
@@ -43,7 +53,22 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
     }
 
     override fun initViews() {
-        TODO("each button in view usage")
+        ten_yuan.setOnClickListener {
+            balanceValue = 10.00.toBigDecimal()
+            balanceToDeposit()
+        }
+        thirty_yuan.setOnClickListener {
+            balanceValue = 30.00.toBigDecimal()
+            balanceToDeposit()
+        }
+        fifty_yuan.setOnClickListener {
+            balanceValue = 50.00.toBigDecimal()
+            balanceToDeposit()
+        }
+        hundred_yuan.setOnClickListener {
+            balanceValue = 100.00.toBigDecimal()
+            balanceToDeposit()
+        }
     }
 
     private fun balanceToDeposit() {
@@ -57,6 +82,12 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
         }
     }
 
+    private fun showCoverDialog(ctx: Context) {
+        val builder = AlertDialog.Builder(ctx)
+        builder.setTitle("提示")
+        builder.setMessage("你选择了")
+    }
+
     private fun checkBalanceInput(): Boolean {
         TODO("Check balance input")
     }
@@ -68,7 +99,8 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
     }
 
     override fun depositSuccess(userAccount: Accounts) {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
+        toast("充值+$balanceValue+成功")
     }
 
     override fun depositFail(msg: String) {

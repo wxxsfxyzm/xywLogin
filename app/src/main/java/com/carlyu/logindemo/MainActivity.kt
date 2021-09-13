@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.carlyu.logindemo.balance.BalanceActivity
 import com.carlyu.logindemo.bean.User
 import com.carlyu.logindemo.utils.toast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -30,7 +31,9 @@ class MainActivity : AppCompatActivity() {
             else -> "Internal Error"
         }
         errCheck(userInfo.text)
-
+        remain_deposit_button.setOnClickListener {
+            BalanceActivity.startActivity(this, user)
+        }
     }
 
     private fun errCheck(any: Any) {
