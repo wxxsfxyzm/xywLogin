@@ -12,9 +12,7 @@ import com.carlyu.logindemo.utils.SPUtil
 import com.carlyu.logindemo.utils.toast
 import kotlinx.android.synthetic.main.activity_login.*
 
-/**
- * Created by Roman on 2021/1/22
- */
+
 class LoginActivity : BaseActivity(), LoginContract.View {
 
     private var loginPresenter: LoginContract.Presenter? = null

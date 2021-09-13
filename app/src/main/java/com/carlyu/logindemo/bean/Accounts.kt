@@ -16,7 +16,7 @@ data class Accounts(
 
 data class User(
     val userid: String,
-    // val nickname: String,
+
     val password: String,
     val username: String,
     val balance: BigDecimal
