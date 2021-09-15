@@ -17,6 +17,7 @@ import com.carlyu.logindemo.bean.User
 import com.carlyu.logindemo.utils.toast
 import kotlinx.android.synthetic.main.activity_balance.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.indeterminateProgressDialog
 import java.math.BigDecimal
 
 class BalanceActivity : BaseActivity(), BalanceContract.View {
@@ -110,7 +111,8 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
         ) {
             positiveButton("确认") {
                 Log.i("", "确认充值操作")
-                toast("正在充值")
+                //toast("正在充值")
+                indeterminateProgressDialog("正在充值中", "请稍候")
                 balanceToDeposit(user)
             }
             negativeButton("我再想想") {

@@ -7,8 +7,11 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.carlyu.logindemo.balance.BalanceActivity
 import com.carlyu.logindemo.bean.User
+import com.carlyu.logindemo.login.LoginActivity
+import com.carlyu.logindemo.utils.SPUtil
 import com.carlyu.logindemo.utils.toast
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.indeterminateProgressDialog
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +36,17 @@ class MainActivity : AppCompatActivity() {
         errCheck(userInfo.text)
         remain_deposit_button.setOnClickListener {
             BalanceActivity.startActivity(this, user)
+            finish()
+        }
+        go_get_detail_button.setOnClickListener {
+            toast("开发中！")
+        }
+        exit_login.setOnClickListener {
+            indeterminateProgressDialog("退出登录中", "请稍候")
+            SPUtil.saveLogin(false)
+            LoginActivity.startActivity(this)
+            toast("退出登录成功！")
+            finish()
         }
     }
 

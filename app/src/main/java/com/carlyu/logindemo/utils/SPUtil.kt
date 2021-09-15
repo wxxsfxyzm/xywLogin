@@ -3,11 +3,10 @@ package com.carlyu.logindemo.utils
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.carlyu.logindemo.common.Constant
+import com.carlyu.logindemo.common.Constant.IS_LOGIN
 import com.carlyu.logindemo.common.MyApplication
 
-/**
- * Created by Roman on 2021/1/11
- */
+
 object SPUtil {
     /**
      *
@@ -18,13 +17,19 @@ object SPUtil {
     }
 
     /**
-     * 用户是否登录
+     * 保存用户登录态
+     *
+     * 登陆成功则currentProgress为true
+     * 否则为false
      */
     @Synchronized
     fun saveLogin(currentProgress: Boolean) {
-        getSP().edit().putBoolean(Constant.IS_LOGIN, currentProgress).apply()
+        getSP().edit().putBoolean(IS_LOGIN, currentProgress).apply()
     }
 
+    /**
+     * 用户是否登录
+     */
     @Synchronized
     fun isLogin(): Boolean {
         return getSP().getBoolean(Constant.IS_LOGIN, false)

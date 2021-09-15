@@ -63,7 +63,7 @@
         app:layout_constraintVertical_bias="0.208" />
 
     <!--  插入横线  -->
-    <!--  约束左右边界以实现剧中  -->
+    <!--  约束左右边界以实现居中  -->
     <TextView
         android:id="@+id/textView2"
         android:layout_width="300dp"
@@ -112,6 +112,13 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"
             android:text="@string/get_detail" />
+
+        <Button
+            android:id="@+id/exit_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/exit_login" />
     </LinearLayout>
 
 

@@ -11,6 +11,7 @@ import com.carlyu.logindemo.register.RegisterActivity
 import com.carlyu.logindemo.utils.SPUtil
 import com.carlyu.logindemo.utils.toast
 import kotlinx.android.synthetic.main.activity_login.*
+import org.jetbrains.anko.indeterminateProgressDialog
 
 
 class LoginActivity : BaseActivity(), LoginContract.View {
@@ -34,6 +35,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     override fun initViews() {
         login.setOnClickListener {
+            indeterminateProgressDialog("正在登录中", "请稍候")
             userToLogin()
         }
         register.setOnClickListener {
