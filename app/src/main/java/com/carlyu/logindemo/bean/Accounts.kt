@@ -15,9 +15,8 @@ data class Accounts(
 ) : Serializable
 
 data class User(
-    val userid: String,
-
+    val studentId: String,
     val password: String,
-    val username: String,
+    val studentName: String,
     val balance: BigDecimal
 ) : Serializable
