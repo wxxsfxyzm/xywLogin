@@ -28,7 +28,13 @@ class BalanceTask : BalanceContract.Task {
                 }
 
                 override fun onResponse(call: Call<Accounts>, response: Response<Accounts>) {
-                    TODO("Not yet implemented")
+
+                    val result: Accounts? = response.body()
+                    if (result != null && result.code == "0") {
+                        callBack?.operationSuccess(result)
+                    } else {
+                        callBack?.operationFail(result!!.msg)
+                    }
                 }
             })
         }

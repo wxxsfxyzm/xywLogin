@@ -97,7 +97,7 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
 
     private fun balanceToDeposit(user: User) {
         if (checkBalanceInput()) {
-            balancePresenter?.goDepositOperation(user.userid, balanceValue)
+            balancePresenter?.goDepositOperation(user.studentId, balanceValue)
         }
     }
 
@@ -106,7 +106,7 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
     private fun showAlertDialog(user: User) {
         alert(
             "你真的要充值${balanceValue}元吗？",
-            "尊敬的${user.username}"
+            "尊敬的${user.studentName}"
         ) {
             positiveButton("确认") {
                 Log.i("", "确认充值操作")
@@ -147,7 +147,7 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
     }
 
     override fun depositSuccess(userAccount: Accounts) {
-        toast("充值 $balanceValue 成功")
+        toast("充值 $balanceValue 元成功")
         MainActivity.startActivity(this, userAccount.data)
         finish()
     }

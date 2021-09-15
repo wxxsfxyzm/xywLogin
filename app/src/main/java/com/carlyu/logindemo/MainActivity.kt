@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         )
         val user = extraUserData as User
         userInfo.text = when {
-            extraUserData.username != "" -> user.username
+            extraUserData.studentName != "" -> user.studentName
             else -> "Internal Error"
         }
         errCheck(userInfo.text)

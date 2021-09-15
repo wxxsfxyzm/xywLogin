@@ -89,7 +89,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
     }
 
     override fun registerSuccess(userAccount: Accounts) {
-        toast("注册成功!\n${userAccount.data.userid}${userAccount.data.username}${userAccount.data.password}")
+        toast("注册成功!\n${userAccount.data.studentId}${userAccount.data.studentName}${userAccount.data.password}")
         finish()
     }
 
