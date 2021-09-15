@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.LoginDemo">
+        <activity android:name="com.carlyu.logindemo.balance.BalanceActivity" />
         <activity android:name="com.carlyu.logindemo.register.RegisterActivity" />
         <activity android:name="com.carlyu.logindemo.MainActivity" />
         <activity android:name="com.carlyu.logindemo.login.LoginActivity">

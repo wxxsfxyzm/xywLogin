@@ -10,12 +10,12 @@ interface BalanceContract {
         /**
          * 获取用户id
          */
-        fun getUserById(): String
+        //fun getUserById(): String
 
         /**
          *
          */
-        fun getDepositAmount(): BigDecimal
+        //fun getDepositAmount(): BigDecimal
 
         /**
          * 充值成功
