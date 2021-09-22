@@ -12,26 +12,27 @@ import androidx.appcompat.app.AppCompatActivity
  * @updateAuthor $
  * @updateDes
  */
- abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       if (getLayout() != 0) {
-          setContentView(getLayout())
-       }
-       initData()
-       initViews()
-       setupToolbar()
+        if (getLayout() != 0) {
+            setContentView(getLayout())
+        }
+        initData()
+        initViews()
+        setupToolbar()
     }
 
 
-   override fun onDestroy() {
-      super.onDestroy()
-   }
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
     /**
      * 获取布局文件ID
      *
-     * @return
+     * @return Layout ID
      */
     abstract fun getLayout(): Int
 

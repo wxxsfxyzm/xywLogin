@@ -3,7 +3,7 @@ package com.carlyu.logindemo.common
 import com.carlyu.logindemo.base.BaseConstant
 
 /**
- * Created by Roman on 2021/1/10
+ * 常量
  */
 object Constant {
     /**

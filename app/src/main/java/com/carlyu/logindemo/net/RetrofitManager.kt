@@ -30,9 +30,9 @@ class RetrofitManager {
 
             val okHttpClientBuilder = OkHttpClient.Builder()
             //连接超时
-            okHttpClientBuilder.connectTimeout(30, TimeUnit.SECONDS)
+            okHttpClientBuilder.connectTimeout(10, TimeUnit.SECONDS)
             //读取超时
-            okHttpClientBuilder.readTimeout(10, TimeUnit.SECONDS)
+            okHttpClientBuilder.readTimeout(5, TimeUnit.SECONDS)
             //添加拦截器
             okHttpClientBuilder.addInterceptor(loggingInterceptor)
             //创建retrofit对象

@@ -14,11 +14,12 @@ import com.carlyu.logindemo.R
 import com.carlyu.logindemo.base.BaseActivity
 import com.carlyu.logindemo.bean.Accounts
 import com.carlyu.logindemo.bean.User
+import com.carlyu.logindemo.databinding.ActivityBalanceBinding
 import com.carlyu.logindemo.utils.toast
-import kotlinx.android.synthetic.main.activity_balance.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.indeterminateProgressDialog
 import java.math.BigDecimal
+
 
 class BalanceActivity : BaseActivity(), BalanceContract.View {
 
@@ -27,6 +28,8 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
     // will be initiated on pressing the chosen button
     private lateinit var balanceValue: BigDecimal
 
+    // initiate ViewBinding as global variable immediately
+    private val binding = ActivityBalanceBinding.inflate(layoutInflater)
 
     companion object {
         fun startActivity(ctx: Context, user: User) {
@@ -47,21 +50,22 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
         super.onCreate(savedInstanceState)
         val extraUserData = intent.getSerializableExtra("user")
         val user = extraUserData as User
-        remain_value.text = user.balance.toPlainString() + "元"
 
-        ten_yuan.setOnClickListener {
+        binding.remainValue.text = user.balance.toPlainString() + "元"
+
+        binding.tenYuan.setOnClickListener {
             balanceValue = 10.00.toBigDecimal()
             showAlertDialog(user)
         }
-        thirty_yuan.setOnClickListener {
+        binding.thirtyYuan.setOnClickListener {
             balanceValue = 30.00.toBigDecimal()
             showAlertDialog(user)
         }
-        fifty_yuan.setOnClickListener {
+        binding.fiftyYuan.setOnClickListener {
             balanceValue = 50.00.toBigDecimal()
             showAlertDialog(user)
         }
-        hundred_yuan.setOnClickListener {
+        binding.hundredYuan.setOnClickListener {
             balanceValue = 100.00.toBigDecimal()
             showAlertDialog(user)
         }
@@ -70,15 +74,20 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
     override fun setupToolbar() {
     }
 
-    override fun getLayout(): Int {
-        return R.layout.activity_balance
-    }
+    override fun getLayout(): Int = binding.root.sourceLayoutResId
+/*    {
+        return com.carlyu.logindemo.R.layout.activity_balance
+    }*/
 
     override fun initData() {
         BalancePresenter(this)
     }
 
     override fun initViews() {
+        binding.yourMoneyRemaining.apply {
+            text = getText(R.string.your_money_remaining)
+            textSize = 25F
+        }
 /*        ten_yuan.setOnClickListener {
             balanceValue = 10.00.toBigDecimal()
         }
@@ -125,8 +134,8 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
                 getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.CYAN)
                 getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.CYAN)
             } else {
-                getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLUE)
-                getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLUE)
+                getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(R.color.colorAccent)
+                getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(R.color.colorAccent)
             }
         }
     }
@@ -160,4 +169,5 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
     override fun setPresenter(presenter: BalanceContract.Presenter) {
         balancePresenter = presenter
     }
+
 }

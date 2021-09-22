@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--    这个用于普通亮色模式主色调-->
-
     <color name="main_bg_1">@android:color/white</color>
     <!--    这个用于辅助背景色调-->
     <color name="main_bg_2">#999999</color>

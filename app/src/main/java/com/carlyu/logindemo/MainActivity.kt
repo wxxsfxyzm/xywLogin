@@ -7,41 +7,48 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.carlyu.logindemo.balance.BalanceActivity
 import com.carlyu.logindemo.bean.User
+import com.carlyu.logindemo.databinding.ActivityMainBinding
 import com.carlyu.logindemo.login.LoginActivity
 import com.carlyu.logindemo.utils.SPUtil
 import com.carlyu.logindemo.utils.toast
-import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.indeterminateProgressDialog
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        var clickCount = 0
         val extraUserData = intent.getSerializableExtra("user")
         Log.d(
             "MainActivity",
             "extraData is $extraUserData"
         )
         val user = extraUserData as User
-        userInfo.text = when {
+        binding.userInfo.text = when {
             extraUserData.studentName != "" -> user.studentName
             else -> "Internal Error"
         }
-        errCheck(userInfo.text)
-        userBalance.text = when {
+        errCheck(binding.userInfo.text)
+        binding.userBalance.text = when {
             extraUserData.balance.toString() != "" -> user.balance.toPlainString()
             else -> "Internal Error"
         }
-        errCheck(userInfo.text)
-        remain_deposit_button.setOnClickListener {
+        errCheck(binding.userInfo.text)
+        binding.remainDepositButton.setOnClickListener {
             BalanceActivity.startActivity(this, user)
             finish()
         }
-        go_get_detail_button.setOnClickListener {
-            toast("开发中！")
+        binding.goGetDetailButton.setOnClickListener {
+            if (clickCount == 3) {
+                toast("别戳了")
+                clickCount = 0
+            } else {
+                clickCount++
+                toast("开发中！")
+            }
         }
-        exit_login.setOnClickListener {
+        binding.exitLogin.setOnClickListener {
             indeterminateProgressDialog("退出登录中", "请稍候")
             SPUtil.saveLogin(false)
             LoginActivity.startActivity(this)
