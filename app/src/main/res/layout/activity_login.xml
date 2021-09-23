@@ -5,21 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="登录学生端"
-
-            android:background="@color/main_bg_1"
-            app:titleTextColor="@color/main_text_1"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-    </com.google.android.material.appbar.AppBarLayout>
+    <include layout="@layout/toolbar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -76,25 +62,25 @@
             android:layout_marginTop="16dp"
             android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_btn_register"
-                style="?android:textAppearanceSmall"
+                style="@style/MaterialButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="@color/colorAccent"
                 android:text="@string/login_register"
+                android:textAppearance="@style/MaterialButton"
                 android:textStyle="bold" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/login"
-                style="?android:textAppearanceSmall"
+                style="@style/MaterialButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/colorAccent"
                 android:text="@string/login_login"
+                android:textAppearance="@style/MaterialButton"
                 android:textStyle="bold" />
 
         </LinearLayout>

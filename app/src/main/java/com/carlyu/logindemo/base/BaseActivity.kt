@@ -3,6 +3,8 @@ package com.carlyu.logindemo.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewbinding.ViewBinding
+import com.dylanc.viewbinding.inflateBindingWithGeneric
 
 
 /**
@@ -12,29 +14,23 @@ import androidx.appcompat.app.AppCompatActivity
  * @updateAuthor $
  * @updateDes
  */
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
+    lateinit var binding: T
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (getLayout() != 0) {
-            setContentView(getLayout())
-        }
+        binding = this.inflateBindingWithGeneric(layoutInflater)
+        setContentView(binding.root)
         initData()
         initViews()
         setupToolbar()
     }
 
+    abstract fun getViewBinding(): T?
 
     override fun onDestroy() {
         super.onDestroy()
     }
-
-    /**
-     * 获取布局文件ID
-     *
-     * @return Layout ID
-     */
-    abstract fun getLayout(): Int
 
     /**
      * 初始化数据
@@ -44,7 +40,7 @@ abstract class BaseActivity : AppCompatActivity() {
     /**
      * 初始化view
      */
-    abstract fun initViews()
+    protected abstract fun initViews()
 
     /**
      * 设置toolbar

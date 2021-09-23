@@ -21,7 +21,7 @@ import org.jetbrains.anko.indeterminateProgressDialog
 import java.math.BigDecimal
 
 
-class BalanceActivity : BaseActivity(), BalanceContract.View {
+class BalanceActivity : BaseActivity<ActivityBalanceBinding>(), BalanceContract.View {
 
     private var balancePresenter: BalanceContract.Presenter? = null
 
@@ -29,7 +29,7 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
     private lateinit var balanceValue: BigDecimal
 
     // initiate ViewBinding as global variable immediately
-    private val binding = ActivityBalanceBinding.inflate(layoutInflater)
+    // private val binding = ActivityBalanceBinding.inflate(layoutInflater)
 
     companion object {
         fun startActivity(ctx: Context, user: User) {
@@ -74,7 +74,7 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
     override fun setupToolbar() {
     }
 
-    override fun getLayout(): Int = binding.root.sourceLayoutResId
+//    override fun getLayout(): Int = binding.root.sourceLayoutResId
 /*    {
         return com.carlyu.logindemo.R.layout.activity_balance
     }*/
@@ -109,6 +109,10 @@ class BalanceActivity : BaseActivity(), BalanceContract.View {
         if (checkBalanceInput()) {
             balancePresenter?.goDepositOperation(user.studentId, balanceValue)
         }
+    }
+
+    override fun getViewBinding(): ActivityBalanceBinding {
+        return ActivityBalanceBinding.inflate(layoutInflater)
     }
 
     /**显示充值提示框**/

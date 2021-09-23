@@ -17,11 +17,9 @@ import com.carlyu.logindemo.utils.toast
 import org.jetbrains.anko.indeterminateProgressDialog
 
 
-class LoginActivity : BaseActivity(), LoginContract.View {
+open class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
 
     private var loginPresenter: LoginContract.Presenter? = null
-
-    private lateinit var binding: ActivityLoginBinding
 
     companion object {
         fun startActivity(ctx: Context) {
@@ -32,19 +30,30 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
     }
 
-    override fun getLayout(): Int {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        try {
+            super.onRestoreInstanceState(savedInstanceState)
+        } catch (e: Exception) {
+            Log.d("ExceptionClass:", e.javaClass.toGenericString())
+            Log.d(null, "======================")
+            e.printStackTrace()
+            Log.d(null, "======================")
+        }
+    }
+
+/*    override fun getLayout(): Int {
         binding = ActivityLoginBinding.inflate(layoutInflater)
-        /*return R.layout.activity_login*/
+        *//*return R.layout.activity_login*//*
         Log.d("R.layout.activity_login", R.layout.activity_login.toString())
         Log.d("binding.root.sourceLayoutResId", binding.root.sourceLayoutResId.toString())
         return binding.root.sourceLayoutResId
-    }
+    }*/
 
     override fun initData() {
         LoginPresenter(this)
+
     }
 
     override fun initViews() {
@@ -64,6 +73,10 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         binding.loginBtnRegister.setOnClickListener {
             RegisterActivity.startActivity(this)
         }
+    }
+
+    override fun getViewBinding(): ActivityLoginBinding? {
+        return ActivityLoginBinding.inflate(layoutInflater, binding.root, true)
     }
 
     private fun userToLogin() {
@@ -87,7 +100,8 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     }
 
     override fun setupToolbar() {
-        val mToolbar: Toolbar = binding.toolbar
+        val mToolbar = findViewById<Toolbar>(R.id.toolbar)
+        mToolbar.title = "登录"
         setSupportActionBar(mToolbar)
 
     }

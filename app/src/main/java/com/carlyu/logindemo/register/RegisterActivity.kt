@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
+import androidx.appcompat.widget.Toolbar
 import com.carlyu.logindemo.R
 import com.carlyu.logindemo.base.BaseActivity
 import com.carlyu.logindemo.bean.Accounts
@@ -11,11 +13,11 @@ import com.carlyu.logindemo.databinding.ActivityRegisterBinding
 import com.carlyu.logindemo.utils.toast
 
 
-class RegisterActivity : BaseActivity(), RegisterContract.View {
+class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), RegisterContract.View {
 
     private var registerPresenter: RegisterContract.Presenter? = null
 
-    private val binding = ActivityRegisterBinding.inflate(layoutInflater)
+    // private val binding = ActivityRegisterBinding.inflate(layoutInflater)
 
     companion object {
         fun startActivity(ctx: Context) {
@@ -28,7 +30,19 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
         super.onCreate(savedInstanceState)
     }
 
-    override fun getLayout(): Int = binding.root.sourceLayoutResId
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        try {
+            super.onRestoreInstanceState(savedInstanceState)
+        } catch (e: Exception) {
+            Log.d(null, "======================")
+            Log.d("ExceptionClass:", e.javaClass.toGenericString())
+            Log.d(null, "======================")
+            e.printStackTrace()
+            Log.d(null, "======================")
+
+        }
+    }
+    // override fun getLayout(): Int = binding.root.sourceLayoutResId
 /*    {
         return R.layout.activity_register
     }*/
@@ -74,8 +88,15 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
     }
 
     override fun setupToolbar() {
-
+        val mToolbar = findViewById<Toolbar>(R.id.toolbar)
+        mToolbar.title = "注册"
+        setSupportActionBar(mToolbar)
     }
+
+    override fun getViewBinding(): ActivityRegisterBinding {
+        return ActivityRegisterBinding.inflate(layoutInflater)
+    }
+
 
     override fun getUserById(): String =
         binding.inputRegisterId.text.toString()
