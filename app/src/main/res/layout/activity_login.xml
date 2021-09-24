@@ -73,7 +73,7 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/login"
+                android:id="@+id/login_btn_login"
                 style="@style/MaterialButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

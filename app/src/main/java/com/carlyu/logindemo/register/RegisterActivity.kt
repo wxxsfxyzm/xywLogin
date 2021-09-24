@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.carlyu.logindemo.R
 import com.carlyu.logindemo.base.BaseActivity
 import com.carlyu.logindemo.bean.Accounts
@@ -17,6 +18,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), RegisterContra
 
     private var registerPresenter: RegisterContract.Presenter? = null
 
+    // Already configured in BaseActivity, so here is no longer needed
     // private val binding = ActivityRegisterBinding.inflate(layoutInflater)
 
     companion object {
@@ -42,10 +44,6 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), RegisterContra
 
         }
     }
-    // override fun getLayout(): Int = binding.root.sourceLayoutResId
-/*    {
-        return R.layout.activity_register
-    }*/
 
     override fun initData() {
         RegisterPresenter(this)
@@ -89,8 +87,14 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), RegisterContra
 
     override fun setupToolbar() {
         val mToolbar = findViewById<Toolbar>(R.id.toolbar)
-        mToolbar.title = "注册"
+        mToolbar.title = "新用户注册"
+        mToolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_arrow_back_24)
+
         setSupportActionBar(mToolbar)
+
+        mToolbar.setNavigationOnClickListener {
+            finish()
+        }
     }
 
     override fun getViewBinding(): ActivityRegisterBinding {
@@ -114,7 +118,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), RegisterContra
 
 
     override fun registerSuccess(userAccount: Accounts) {
-        toast("注册成功!\n${userAccount.data.studentId}${userAccount.data.studentName}${userAccount.data.password}")
+        toast("注册成功!\n${userAccount.data.studentId}\n${userAccount.data.studentName}")
         finish()
     }
 
