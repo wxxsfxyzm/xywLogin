@@ -37,12 +37,12 @@ class MainActivity : AppCompatActivity() {
         errCheck(binding.userInfo.text)
         binding.remainDepositButton.setOnClickListener {
             BalanceActivity.startActivity(this, user)
-            finish()
+            //若放弃充值可以返回首页，没必要finish
+            //finish()
         }
         binding.goGetDetailButton.setOnClickListener {
             if (clickCount == 3) {
                 toast("别戳了")
-                clickCount = 0
             } else {
                 clickCount++
                 toast("开发中！")

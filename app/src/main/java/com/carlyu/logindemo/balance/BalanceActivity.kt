@@ -9,6 +9,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.carlyu.logindemo.MainActivity
 import com.carlyu.logindemo.R
 import com.carlyu.logindemo.base.BaseActivity
@@ -29,6 +31,7 @@ class BalanceActivity : BaseActivity<ActivityBalanceBinding>(), BalanceContract.
     private lateinit var balanceValue: BigDecimal
 
     // initiate ViewBinding as global variable immediately
+    // no longer needed
     // private val binding = ActivityBalanceBinding.inflate(layoutInflater)
 
     companion object {
@@ -45,11 +48,46 @@ class BalanceActivity : BaseActivity<ActivityBalanceBinding>(), BalanceContract.
         }
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+    }
+
+    override fun setupToolbar() {
         val extraUserData = intent.getSerializableExtra("user")
         val user = extraUserData as User
+
+        val mToolbar = findViewById<Toolbar>(R.id.toolbar)
+        mToolbar.title = user.studentName
+        mToolbar.subtitle = user.studentId
+        mToolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_arrow_back_24)
+
+        setSupportActionBar(mToolbar)
+
+        mToolbar.setNavigationOnClickListener {
+            finish()
+        }
+    }
+
+//    override fun getLayout(): Int = binding.root.sourceLayoutResId
+/*    {
+        return com.carlyu.logindemo.R.layout.activity_balance
+    }*/
+
+    override fun initData() {
+        BalancePresenter(this)
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun initViews() {
+        //initiate userData from intent
+        val extraUserData = intent.getSerializableExtra("user")
+        val user = extraUserData as User
+
+        binding.yourMoneyRemaining.apply {
+            text = getText(R.string.your_money_remaining)
+            textSize = 25F
+        }
 
         binding.remainValue.text = user.balance.toPlainString() + "元"
 
@@ -71,40 +109,6 @@ class BalanceActivity : BaseActivity<ActivityBalanceBinding>(), BalanceContract.
         }
     }
 
-    override fun setupToolbar() {
-    }
-
-//    override fun getLayout(): Int = binding.root.sourceLayoutResId
-/*    {
-        return com.carlyu.logindemo.R.layout.activity_balance
-    }*/
-
-    override fun initData() {
-        BalancePresenter(this)
-    }
-
-    override fun initViews() {
-        binding.yourMoneyRemaining.apply {
-            text = getText(R.string.your_money_remaining)
-            textSize = 25F
-        }
-/*        ten_yuan.setOnClickListener {
-            balanceValue = 10.00.toBigDecimal()
-        }
-        thirty_yuan.setOnClickListener {
-            balanceValue = 30.00.toBigDecimal()
-            //balanceToDeposit()
-        }
-        fifty_yuan.setOnClickListener {
-            balanceValue = 50.00.toBigDecimal()
-            //balanceToDeposit()
-        }
-        hundred_yuan.setOnClickListener {
-            balanceValue = 100.00.toBigDecimal()
-            //balanceToDeposit()
-        }*/
-    }
-
     private fun balanceToDeposit(user: User) {
         if (checkBalanceInput()) {
             balancePresenter?.goDepositOperation(user.studentId, balanceValue)
@@ -116,7 +120,7 @@ class BalanceActivity : BaseActivity<ActivityBalanceBinding>(), BalanceContract.
     }
 
     /**显示充值提示框**/
-    @SuppressLint("ResourceAsColor")
+    //@SuppressLint("ResourceAsColor")
     private fun showAlertDialog(user: User) {
         alert(
             "你真的要充值${balanceValue}元吗？",
@@ -138,8 +142,8 @@ class BalanceActivity : BaseActivity<ActivityBalanceBinding>(), BalanceContract.
                 getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.CYAN)
                 getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.CYAN)
             } else {
-                getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(R.color.colorAccent)
-                getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(R.color.colorAccent)
+                getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this@BalanceActivity, R.color.colorAccent))
+                getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this@BalanceActivity, R.color.colorAccent))
             }
         }
     }

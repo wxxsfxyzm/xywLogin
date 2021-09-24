@@ -17,7 +17,7 @@ import com.carlyu.logindemo.utils.toast
 import org.jetbrains.anko.indeterminateProgressDialog
 
 
-open class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
+class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
 
     private var loginPresenter: LoginContract.Presenter? = null
 
@@ -33,6 +33,8 @@ open class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.V
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        // Already changed buttonType to solve it
+        // stay in case
         try {
             super.onRestoreInstanceState(savedInstanceState)
         } catch (e: Exception) {
@@ -43,6 +45,7 @@ open class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.V
         }
     }
 
+    // no longer needed
 /*    override fun getLayout(): Int {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         *//*return R.layout.activity_login*//*
@@ -57,7 +60,8 @@ open class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.V
     }
 
     override fun initViews() {
-        binding.login.setOnClickListener {
+        binding.loginBtnLogin.textSize = 15F
+        binding.loginBtnLogin.setOnClickListener {
             indeterminateProgressDialog("正在登录中", "请稍候") {
                 setCancelable(false)
                 setOnShowListener {
@@ -70,6 +74,7 @@ open class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.V
             }
 
         }
+        binding.loginBtnRegister.textSize = 15F
         binding.loginBtnRegister.setOnClickListener {
             RegisterActivity.startActivity(this)
         }
