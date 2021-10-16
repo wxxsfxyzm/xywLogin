@@ -13,38 +13,41 @@
         android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingTop="75dp"
-        android:text="请选择你的网络：" />
+        android:text="@string/choose_net_name" />
 
-    <LinearLayout
+    <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingTop="105dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:checkedButton="@id/radio_button_cmcc_edu">
 
         <RadioButton
+            android:id="@+id/radio_button_cmcc_edu"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/cmcc_edu"
-            android:checked="true" />
+            android:text="@string/cmcc_edu" />
 
         <RadioButton
+            android:id="@+id/radio_button_f_young"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/f_young"
-            android:checked="false" />
+            android:text="@string/f_young" />
 
         <RadioButton
+            android:id="@+id/radio_button_njfu_wifi"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/njfu_wifi"
-            android:checked="false" />
-    </LinearLayout>
+            android:text="@string/njfu_wifi" />
+    </RadioGroup>
+
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -1,7 +1,6 @@
 package com.carlyu.xywlogin.bean
 
 import java.io.Serializable
-import java.math.BigDecimal
 
 
 /**
@@ -15,8 +14,10 @@ data class Accounts(
 ) : Serializable
 
 data class User(
-    val studentId: String,
-    val password: String,
-    val studentName: String,
-    val balance: BigDecimal
+    val DDDDD: String,
+    val upass: String,
+    val R1: String = "0",
+    val R3: String = "0",
+    val R6: String = "00",
+    val Key: String = "123456"
 ) : Serializable

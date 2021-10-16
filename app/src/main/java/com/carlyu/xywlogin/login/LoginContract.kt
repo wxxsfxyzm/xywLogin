@@ -2,7 +2,6 @@ package com.carlyu.xywlogin.login
 
 import com.carlyu.xywlogin.base.BasePresenter
 import com.carlyu.xywlogin.base.BaseView
-import com.carlyu.xywlogin.bean.Accounts
 
 interface LoginContract {
 
@@ -21,31 +20,39 @@ interface LoginContract {
         /**
          * 登陆成功
          */
-        fun loginSuccess(userAccount: Accounts)
+        fun loginSuccess()
 
         /**
          * 登陆失败
          */
         fun loginFail(msg: String)
+
     }
 
     interface Presenter : BasePresenter {
         /**
          * 开始登录
+         * 声明网络类型
          */
-        fun goLogin(userid: String, password: String)
+        fun goLogin(userid: String, password: String, netType: String)
 
         interface OnLoginCallBack {
-            //fun loginSuccess() // 传入空参，仅供测试
-            fun loginSuccess(userAccount: Accounts) // 传入用户信息
+            fun loginSuccess() // 传入空参，仅供测试
             fun loginFail(message: String)
         }
+
     }
 
     interface Task {
         fun login(
             userid: String?,
             password: String?,
+            R1: String,
+            R3: String,
+            R6: String,
+            para: String,
+            Key: String,
+            netType: String,
             onLoginCallBack: Presenter.OnLoginCallBack
         )
     }

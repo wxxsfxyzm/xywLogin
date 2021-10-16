@@ -45,4 +45,8 @@
     <string name="_50_yuan">50元</string>
     <string name="_100_yuan">100元</string>
     <string name="exit_login">退出登录</string>
+    <string name="cmcc_edu">CMCC_EDU</string>
+    <string name="f_young">f_Young</string>
+    <string name="njfu_wifi">NJFU_WiFi</string>
+    <string name="choose_net_name">请选择你的网络：</string>
 </resources>

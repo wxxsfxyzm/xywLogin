@@ -6,20 +6,17 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import androidx.appcompat.widget.Toolbar
-import com.carlyu.xywlogin.MainActivity
 import com.carlyu.xywlogin.R
 import com.carlyu.xywlogin.base.BaseActivity
-import com.carlyu.xywlogin.bean.Accounts
 import com.carlyu.xywlogin.databinding.ActivityLoginBinding
-import com.carlyu.xywlogin.register.RegisterActivity
-import com.carlyu.xywlogin.utils.SPUtil
-import com.carlyu.xywlogin.utils.toast
 import org.jetbrains.anko.indeterminateProgressDialog
 
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
 
     private var loginPresenter: LoginContract.Presenter? = null
+
+    private lateinit var netType: String
 
     companion object {
         fun startActivity(ctx: Context) {
@@ -32,9 +29,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
         super.onCreate(savedInstanceState)
     }
 
+    // Already changed buttonType to solve it
+    // remain just in case
+    // actually overrides nothing
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        // Already changed buttonType to solve it
-        // stay in case
         try {
             super.onRestoreInstanceState(savedInstanceState)
         } catch (e: Exception) {
@@ -60,33 +58,42 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
     }
 
     override fun initViews() {
-        binding.loginBtnLogin.textSize = 15F
-        binding.loginBtnLogin.setOnClickListener {
-            indeterminateProgressDialog("正在登录中", "请稍候") {
-                setCancelable(false)
-                setOnShowListener {
-                    userToLogin()
-                    kotlin.run {
-                        Thread.sleep(2000)
-                        it.cancel()
+        binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                binding.radioButtonCmccEdu.sourceLayoutResId -> netType = "CMCC_EDU"
+                binding.radioButtonFYoung.sourceLayoutResId -> netType = "f-Young"
+                binding.radioButtonNjfuWifi.sourceLayoutResId -> netType = "NJFU_WiFi"
+                else -> kotlin.run {
+                    netType = "ERROR"
+                    Log.d("RadioGroupCheckId", "checkIdError")
+                }
+            }
+        }
+
+        binding.loginBtnLogin.apply {
+            textSize = 15F
+            setOnClickListener {
+                indeterminateProgressDialog("正在登录中", "请稍候") {
+                    setCancelable(false)
+                    setOnShowListener {
+                        userToLogin()
+                        kotlin.run {
+                            Thread.sleep(2000)
+                            it.cancel()
+                        }
                     }
                 }
             }
-
-        }
-        binding.loginBtnRegister.textSize = 15F
-        binding.loginBtnRegister.setOnClickListener {
-            RegisterActivity.startActivity(this)
         }
     }
 
-    override fun getViewBinding(): ActivityLoginBinding? {
+    override fun getViewBinding(): ActivityLoginBinding {
         return ActivityLoginBinding.inflate(layoutInflater, binding.root, true)
     }
 
     private fun userToLogin() {
         if (checkUserInfo()) {
-            loginPresenter?.goLogin(getUserById(), getPwd())
+            loginPresenter?.goLogin(getUserById(), getPwd(), "CMCC_EDU")
         }
     }
 
@@ -106,7 +113,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
 
     override fun setupToolbar() {
         val mToolbar = findViewById<Toolbar>(R.id.toolbar)
-        mToolbar.title = "登录"
+        mToolbar.title = "登录校园网"
+
         setSupportActionBar(mToolbar)
 
     }
@@ -124,19 +132,15 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
     override fun getUserById(): String =
         binding.inputId.text.toString()
 
-    override fun getPwd(): String {
-        return binding.password.text.toString()
-    }
+    override fun getPwd(): String =
+        binding.password.text.toString()
 
-    override fun loginSuccess(userAccount: Accounts) {
-        toast(getString(R.string.login_success))
-        SPUtil.saveLogin(true)
-        MainActivity.startActivity(this, userAccount.data)
-        finish()
+    override fun loginSuccess() {
+
     }
 
     override fun loginFail(msg: String) {
-        toast("登录失败，${msg}")
+
     }
 
     override fun setPresenter(presenter: LoginContract.Presenter) {
