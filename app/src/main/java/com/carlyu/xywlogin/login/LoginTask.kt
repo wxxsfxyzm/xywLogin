@@ -24,6 +24,7 @@ class LoginTask : LoginContract.Task {
         para: String,
         Key: String,
         netType: String,
+        ipType: String,
         onLoginCallBack: LoginContract.Presenter.OnLoginCallBack
     ) {
         val baseURL: String = when (netType) {

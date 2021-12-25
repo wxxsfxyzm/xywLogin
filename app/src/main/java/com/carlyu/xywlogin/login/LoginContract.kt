@@ -1,5 +1,6 @@
 package com.carlyu.xywlogin.login
 
+import android.content.Context
 import com.carlyu.xywlogin.base.BasePresenter
 import com.carlyu.xywlogin.base.BaseView
 
@@ -27,6 +28,10 @@ interface LoginContract {
          */
         fun loginFail(msg: String)
 
+        /**
+         * dp转px
+         */
+        fun dp2px(context: Context, dpVal: Float): Int
     }
 
     interface Presenter : BasePresenter {
@@ -53,6 +58,7 @@ interface LoginContract {
             para: String,
             Key: String,
             netType: String,
+            ipType: String,
             onLoginCallBack: Presenter.OnLoginCallBack
         )
     }

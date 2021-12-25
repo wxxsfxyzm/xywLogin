@@ -49,4 +49,8 @@
     <string name="f_young">f_Young</string>
     <string name="njfu_wifi">NJFU_WiFi</string>
     <string name="choose_net_name">请选择你的网络：</string>
+    <string name="choose_location">请选择你所在的位置：</string>
+    <string name="building_nine">教九</string>
+    <string name="building_five">教五</string>
+    <string name="building_lib">图书馆</string>
 </resources>

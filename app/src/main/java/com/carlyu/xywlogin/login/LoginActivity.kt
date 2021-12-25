@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.util.TypedValue
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.carlyu.xywlogin.R
 import com.carlyu.xywlogin.base.BaseActivity
@@ -17,6 +19,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
     private var loginPresenter: LoginContract.Presenter? = null
 
     private lateinit var netType: String
+
+    private lateinit var ipType: String
 
     companion object {
         fun startActivity(ctx: Context) {
@@ -58,16 +62,65 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
     }
 
     override fun initViews() {
-        binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+        binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                binding.radioButtonCmccEdu.sourceLayoutResId -> netType = "CMCC_EDU"
-                binding.radioButtonFYoung.sourceLayoutResId -> netType = "f-Young"
-                binding.radioButtonNjfuWifi.sourceLayoutResId -> netType = "NJFU_WiFi"
+                binding.radioButtonCmccEdu.id -> kotlin.run {
+                    netType = "CMCC_EDU"
+                    binding.textViewId.visibility = View.GONE
+                    binding.radioGroupHidden.visibility = View.GONE
+                    binding.secondBlockRelativeLayout
+                        .setPadding(
+                            binding.secondBlockRelativeLayout.paddingLeft,
+                            dp2px(this, 155F),
+                            binding.secondBlockRelativeLayout.paddingRight,
+                            binding.secondBlockRelativeLayout.paddingBottom
+                        )
+                }
+                binding.radioButtonFYoung.id -> kotlin.run {
+                    netType = "f-Young"
+                    binding.textViewId.visibility = View.GONE
+                    binding.radioGroupHidden.visibility = View.GONE
+                    binding.secondBlockRelativeLayout
+                        .setPadding(
+                            binding.secondBlockRelativeLayout.paddingLeft,
+                            dp2px(this, 155F),
+                            binding.secondBlockRelativeLayout.paddingRight,
+                            binding.secondBlockRelativeLayout.paddingBottom
+                        )
+                }
+                binding.radioButtonNjfuWifi.id -> kotlin.run {
+                    netType = "NJFU_WiFi"
+                    binding.textViewId.visibility = View.VISIBLE
+                    binding.radioGroupHidden.visibility = View.VISIBLE
+                    binding.secondBlockRelativeLayout
+                        .setPadding(
+                            binding.secondBlockRelativeLayout.paddingLeft,
+                            dp2px(this, 5F),
+                            binding.secondBlockRelativeLayout.paddingRight,
+                            binding.secondBlockRelativeLayout.paddingBottom
+                        )
+
+                }
                 else -> kotlin.run {
                     netType = "ERROR"
                     Log.d("RadioGroupCheckId", "checkIdError")
                 }
+
             }
+        }
+
+        binding.radioGroupHidden.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                binding.radioButtonNine.id -> ipType = "Nine"
+                binding.radioButtonLib.id -> ipType = "Lib"
+                binding.radioButtonFive.id -> ipType = "Five"
+                else -> kotlin.run {
+                    ipType = "ERROR"
+                    Log.d("RadioGroupHiddenCheckId", "checkIdError")
+
+                }
+            }
+
         }
 
         binding.loginBtnLogin.apply {
@@ -145,5 +198,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
 
     override fun setPresenter(presenter: LoginContract.Presenter) {
         loginPresenter = presenter
+    }
+
+
+    override fun dp2px(context: Context, dpVal: Float): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dpVal, context.resources.displayMetrics
+        ).toInt()
     }
 }
