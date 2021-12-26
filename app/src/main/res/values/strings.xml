@@ -53,4 +53,6 @@
     <string name="building_nine">教九</string>
     <string name="building_five">教五</string>
     <string name="building_lib">图书馆</string>
+    <string name="remember_me">记住我</string>
+    <string name="automatic_login">自动登录</string>
 </resources>
