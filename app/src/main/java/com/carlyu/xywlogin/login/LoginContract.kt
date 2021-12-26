@@ -39,7 +39,7 @@ interface LoginContract {
          * 开始登录
          * 声明网络类型
          */
-        fun goLogin(userid: String, password: String, netType: String)
+        fun goLogin(userid: String, password: String, netType: String, ipType: String)
 
         interface OnLoginCallBack {
             fun loginSuccess() // 传入空参，仅供测试

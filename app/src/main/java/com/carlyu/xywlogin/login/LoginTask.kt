@@ -3,7 +3,8 @@ package com.carlyu.xywlogin.login
 import android.util.Log
 import com.carlyu.xywlogin.common.Constant.CMCC_URL
 import com.carlyu.xywlogin.common.Constant.FYOUNG_URL
-import com.carlyu.xywlogin.common.Constant.NJFU_WIFI
+import com.carlyu.xywlogin.common.Constant.NJFU_WIFI_LIB_FIVE
+import com.carlyu.xywlogin.common.Constant.NJFU_WIFI_NINE
 import com.carlyu.xywlogin.exception.MyException
 import com.carlyu.xywlogin.net.APIService
 import com.carlyu.xywlogin.net.RetrofitManager
@@ -30,7 +31,12 @@ class LoginTask : LoginContract.Task {
         val baseURL: String = when (netType) {
             "CMCC_EDU" -> CMCC_URL
             "f-Young" -> FYOUNG_URL
-            "NJFU-WiFi" -> NJFU_WIFI
+            "NJFU-WiFi" -> when (ipType) {
+                "Nine" -> NJFU_WIFI_NINE
+                "Lib" -> NJFU_WIFI_LIB_FIVE
+                "Five" -> NJFU_WIFI_LIB_FIVE
+                else -> "ERROR"
+            }
             else -> "ERROR"
         }
         if (baseURL != "ERROR") {

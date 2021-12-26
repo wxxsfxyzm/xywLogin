@@ -15,11 +15,12 @@ class LoginPresenter(private val view: LoginContract.View) :
     override fun goLogin(
         userid: String,
         password: String,
-        netType: String
+        netType: String,
+        ipType: String
     ) {
         doAsync {
             mTask?.login(
-                userid, password, "0", "0", "0", "00", "123456", netType, object : LoginContract.Presenter.OnLoginCallBack {
+                userid, password, "0", "0", "0", "00", "123456", netType, ipType, object : LoginContract.Presenter.OnLoginCallBack {
                     override fun loginSuccess() {
 
                     }

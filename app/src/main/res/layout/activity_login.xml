@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/radio_group_hidden_padding_top"
+        android:paddingTop="@dimen/radio_group_padding_top"
         android:gravity="center"
         android:orientation="horizontal"
         android:checkedButton="@id/radio_button_cmcc_edu">
@@ -68,7 +68,7 @@
         android:paddingTop="@dimen/radio_group_hidden_padding_top"
         android:gravity="center"
         android:orientation="horizontal"
-        android:checkedButton="@id/radio_button_cmcc_edu">
+        android:checkedButton="@id/radio_button_nine">
 
         <RadioButton
             android:id="@+id/radio_button_nine"

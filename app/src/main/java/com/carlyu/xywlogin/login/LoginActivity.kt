@@ -33,7 +33,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
         super.onCreate(savedInstanceState)
     }
 
-    // Already changed buttonType to solve it
+    // Already changed buttonType to solve the problem
     // remain just in case
     // actually overrides nothing
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -62,6 +62,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
     }
 
     override fun initViews() {
+        /**
+         * Initialize Values
+         */
+        netType = "CMCC_EDU"
+        ipType = "Nine"
+
+        // Radio Group OnclickListener
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 binding.radioButtonCmccEdu.id -> kotlin.run {
@@ -109,6 +116,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
             }
         }
 
+        // Hidden Radio Group OnclickListener
         binding.radioGroupHidden.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 binding.radioButtonNine.id -> ipType = "Nine"
@@ -123,6 +131,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
 
         }
 
+        // Loading Circle On Pressing Login
         binding.loginBtnLogin.apply {
             textSize = 15F
             setOnClickListener {
@@ -146,7 +155,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
 
     private fun userToLogin() {
         if (checkUserInfo()) {
-            loginPresenter?.goLogin(getUserById(), getPwd(), "CMCC_EDU")
+            loginPresenter?.goLogin(getUserById(), getPwd(), netType, ipType)
         }
     }
 
