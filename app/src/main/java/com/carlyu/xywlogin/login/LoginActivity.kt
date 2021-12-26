@@ -116,6 +116,15 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
             }
         }
 
+        binding.checkboxRememberMe.setOnCheckedChangeListener { _, _ ->
+
+            Log.d("checkboxRememberMe", "checked")
+        }
+
+        if (binding.checkboxRememberMe.isChecked) {
+            Log.d("checkboxRememberMe", "checked")
+        }
+
         // Hidden Radio Group OnclickListener
         binding.radioGroupHidden.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
