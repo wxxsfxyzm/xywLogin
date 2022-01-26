@@ -14,8 +14,7 @@ import retrofit2.Response
 
 
 class LoginTask : LoginContract.Task {
-
-
+    
     override fun login(
         userid: String?,
         password: String?,

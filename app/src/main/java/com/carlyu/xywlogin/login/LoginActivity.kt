@@ -14,12 +14,12 @@ import com.carlyu.xywlogin.databinding.ActivityLoginBinding
 import org.jetbrains.anko.indeterminateProgressDialog
 
 
-class LoginActivity : BaseActivity<ActivityLoginBinding>(), LoginContract.View {
+class LoginActivity : BaseActivity<ActivityLoginBinding>(),
+    LoginContract.View {
 
     private var loginPresenter: LoginContract.Presenter? = null
 
     private lateinit var netType: String
-
     private lateinit var ipType: String
 
     companion object {
