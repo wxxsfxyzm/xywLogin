@@ -11,7 +11,11 @@ import androidx.appcompat.widget.Toolbar
 import com.carlyu.xywlogin.R
 import com.carlyu.xywlogin.base.BaseActivity
 import com.carlyu.xywlogin.databinding.ActivityLoginBinding
+import com.carlyu.xywlogin.utils.ConnectUtils
+import com.carlyu.xywlogin.utils.toast
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
+import org.jetbrains.anko.uiThread
 
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(),
@@ -31,6 +35,24 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Thread {
+            Log.d(
+                "isNetworkAvailable",
+                ConnectUtils.isNetworkAvailable(this).toString()
+            )
+            Log.d(
+                "isConnected",
+                ConnectUtils.isConnected(this).toString()
+            )
+            Log.d(
+                "NetworkType",
+                ConnectUtils.getNetworkType(this)!!
+            )
+            Log.d(
+                "isWiFi",
+                ConnectUtils.isWifiNetwork(this).toString()
+            )
+        }.start()
     }
 
     // Already changed buttonType to solve the problem
@@ -147,11 +169,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                 indeterminateProgressDialog("正在登录中", "请稍候") {
                     setCancelable(false)
                     setOnShowListener {
-                        userToLogin()
-                        kotlin.run {
-                            Thread.sleep(2000)
-                            it.cancel()
-                        }
+                        if (checkUserInfo()) {
+                            doAsync {
+                                // if (checkUserInfo())
+                                userToLogin()
+                                uiThread {
+                                    toast("Complete.")
+                                }
+                            }
+                        } else
+                            toast("ERROR")
+                        it.dismiss()
+
                     }
                 }
             }
@@ -163,9 +192,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     }
 
     private fun userToLogin() {
-        if (checkUserInfo()) {
-            loginPresenter?.goLogin(getUserById(), getPwd(), netType, ipType)
-        }
+        //if (checkUserInfo()) {
+        loginPresenter?.goLogin(getUserById(), getPwd(), netType, ipType)
+        //}
     }
 
     private fun checkUserInfo(): Boolean {

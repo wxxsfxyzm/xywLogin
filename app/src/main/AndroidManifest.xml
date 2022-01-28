@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.carlyu.xywlogin">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.carlyu.xywlogin.common.MyApplication"
         android:allowBackup="true"
@@ -12,10 +14,18 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.LoginDemo">
-        <activity android:name="com.carlyu.xywlogin.balance.BalanceActivity" android:exported="false"/>
-        <activity android:name="com.carlyu.xywlogin.register.RegisterActivity" android:exported="false"/>
-        <activity android:name="com.carlyu.xywlogin.MainActivity" android:exported="false"/>
-        <activity android:name="com.carlyu.xywlogin.login.LoginActivity" android:exported="true">
+        <activity
+            android:name="com.carlyu.xywlogin.balance.BalanceActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.carlyu.xywlogin.register.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.carlyu.xywlogin.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.carlyu.xywlogin.login.LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
