@@ -26,6 +26,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     private lateinit var netType: String
     private lateinit var ipType: String
 
+
     companion object {
         fun startActivity(ctx: Context) {
             val i = Intent(ctx, LoginActivity::class.java)
@@ -35,6 +36,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //  DEBUG Thread
         Thread {
             Log.d(
                 "isNetworkAvailable",
@@ -53,12 +55,20 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                 ConnectUtils.isWifiNetwork(this).toString()
             )
         }.start()
+        // TODO PreProcess Functions
+        Thread {
+            if (isRememberMeChecked())
+                TODO("SQLite Operation")
+            if (isAutoLoginChecked())
+                TODO("Call Login Function")
+        }.start()
+
     }
 
     // Already changed buttonType to solve the problem
     // remain just in case
     // actually overrides nothing
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+/*    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         try {
             super.onRestoreInstanceState(savedInstanceState)
         } catch (e: Exception) {
@@ -67,7 +77,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
             e.printStackTrace()
             Log.d(null, "======================")
         }
-    }
+    }*/
 
     // no longer needed
 /*    override fun getLayout(): Int {
@@ -138,16 +148,27 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
             }
         }
 
+
+        /**
+         * Two Checkboxes
+         */
+        // Set RememberMe Checkbox True To Default
+        // AutoLogin To False
+        binding.checkboxRememberMe.isChecked = true
+        binding.checkboxAutomaticLogin.isChecked = false
+
+        // Handler For Checkbox RememberMe
         binding.checkboxRememberMe.setOnCheckedChangeListener { _, _ ->
-
+            Log.d("checkboxRememberMe", "checked")
+        }
+        // DEBUG State Change
+        if (isRememberMeChecked()) {
             Log.d("checkboxRememberMe", "checked")
         }
 
-        if (binding.checkboxRememberMe.isChecked) {
-            Log.d("checkboxRememberMe", "checked")
-        }
-
-        // Hidden Radio Group OnclickListener
+        /**
+         * Hidden Radio Group OnclickListener
+         */
         binding.radioGroupHidden.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 binding.radioButtonNine.id -> ipType = "Nine"
@@ -162,7 +183,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
 
         }
 
-        // Loading Circle On Pressing Login
+        /**
+         * Loading Circle On Pressing Login
+         */
         binding.loginBtnLogin.apply {
             textSize = 15F
             setOnClickListener {
@@ -171,13 +194,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                     setOnShowListener {
                         if (checkUserInfo()) {
                             doAsync {
-                                // if (checkUserInfo())
                                 userToLogin()
                                 uiThread {
+                                    // DEBUG Message
                                     toast("Complete.")
                                 }
                             }
                         } else
+                        // DEBUG Message
                             toast("ERROR")
                         it.dismiss()
 
@@ -210,6 +234,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         }
         return true
     }
+
+    private fun isRememberMeChecked(): Boolean = binding.checkboxRememberMe.isChecked
+
+    private fun isAutoLoginChecked(): Boolean = binding.checkboxAutomaticLogin.isChecked
 
     override fun setupToolbar() {
         val mToolbar = findViewById<Toolbar>(R.id.toolbar)
