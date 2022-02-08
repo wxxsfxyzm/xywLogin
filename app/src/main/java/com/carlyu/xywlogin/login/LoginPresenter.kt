@@ -10,6 +10,7 @@ class LoginPresenter(private val view: LoginContract.View) :
     init {
         view.setPresenter(this)
         mTask = LoginTask()
+        
     }
 
     override fun goLogin(

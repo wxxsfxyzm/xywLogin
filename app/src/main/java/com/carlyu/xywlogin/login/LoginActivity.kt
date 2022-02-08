@@ -11,6 +11,9 @@ import androidx.appcompat.widget.Toolbar
 import com.carlyu.xywlogin.R
 import com.carlyu.xywlogin.base.BaseActivity
 import com.carlyu.xywlogin.databinding.ActivityLoginBinding
+import com.carlyu.xywlogin.room.AppDatabase
+import com.carlyu.xywlogin.room.User
+import com.carlyu.xywlogin.room.UserDao
 import com.carlyu.xywlogin.utils.ConnectUtils
 import com.carlyu.xywlogin.utils.toast
 import org.jetbrains.anko.doAsync
@@ -27,6 +30,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     private lateinit var ipType: String
     private var flagNumber: Boolean = false
     private var flagPasswd: Boolean = false
+
 
     companion object {
         fun startActivity(ctx: Context) {
@@ -55,15 +59,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                 "isWiFi",
                 ConnectUtils.isWifiNetwork(this).toString()
             )
+            Log.d("Context", this.applicationContext.toString())
         }.start()
         // TODO
         //  PreProcess Functions
-/*        Thread {
-            if (isRememberMeChecked())
-            //TODO("SQLite Operation")
-                if (isAutoLoginChecked())
-                //TODO("Call Login Function")
-        }.start()*/
+        // Thread {
+        //DEBUG
+        if (user != null)
+            if (user.isRememberChecked)
+
+                if (user.isAutoLoginChecked)
+                    showLoginDialog()
+        // }.start()
 
     }
 
@@ -92,7 +99,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
 
     override fun initData() {
         LoginPresenter(this)
-
+        //userDAO = AppDatabase.getInstance(this).userDao()
     }
 
     override fun initViews() {
@@ -156,12 +163,28 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
          */
         // Set RememberMe Checkbox True To Default
         // AutoLogin To False
-        binding.checkboxRememberMe.isChecked = true
-        binding.checkboxAutomaticLogin.isChecked = false
+        if (user == null) {
+            binding.checkboxRememberMe.isChecked = true
+            binding.checkboxAutomaticLogin.isChecked = false
+        } else if (user.isRememberChecked) {
+            binding.checkboxRememberMe.isChecked = true
+            /**
+             * Fill UserInfo if Set in Database
+             */
+            binding.inputId.setText(user.userName)
+            binding.password.setText(user.userPasswd)
+            if (user.isAutoLoginChecked)
+                binding.checkboxAutomaticLogin.isChecked = true
+        }
+
 
         // Handler For Checkbox RememberMe
-        binding.checkboxRememberMe.setOnCheckedChangeListener { _, _ ->
-            Log.d("checkboxRememberMe", "checked")
+        binding.checkboxRememberMe.apply {
+            setOnCheckedChangeListener { _, _ ->
+                Log.d("checkboxRememberMe", "checked")
+            }
+            //if (user != null && user.isRememberChecked)
+            // check(true)
         }
         // DEBUG State Change
         if (isRememberMeChecked()) {
@@ -191,35 +214,48 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         binding.loginBtnLogin.apply {
             textSize = 15F
             setOnClickListener {
-                indeterminateProgressDialog("正在登录中", "请稍候") {
-                    setCancelable(false)
-                    setOnShowListener {
-                        if (checkUserInfo()) {
-                            doAsync {
-                                userToLogin()
-                                uiThread {
-                                    // DEBUG Message
-                                    toast("Success")
-                                }
-                            }
-                        } else {
-                            // DEBUG Message
-                            if (flagNumber)
-                                toast(getString(R.string.userid_cant_null))
-                            if (flagPasswd)
-                                toast(getString(R.string.password_cant_null))
-                        }
-                        it.dismiss()
-
-                    }
+                showLoginDialog()
+                doAsync {
+                    // Log.d("User", userDAO.getUserByUserName(getUserById()).toString())
+                    if (isRememberMeChecked() && userDAO.getUserByUserName(getUserById()) == null)
+                        userDAO.addUser(
+                            User(
+                                null,
+                                getUserById(),
+                                getPwd(),
+                                netType,
+                                ipType,
+                                isRememberMeChecked(),
+                                isAutoLoginChecked(),
+                            )
+                        )
+                    if (userDAO.getUserByUserName(getUserById()) != null)
+                        userDAO.updateUserByUser(
+                            User(
+                                userDAO.getUserByUserName(getUserById()).userId,
+                                getUserById(),
+                                getPwd(),
+                                netType,
+                                ipType,
+                                isRememberMeChecked(),
+                                isAutoLoginChecked(),
+                            )
+                        )
                 }
             }
         }
     }
 
     override fun getViewBinding(): ActivityLoginBinding {
-        return ActivityLoginBinding.inflate(layoutInflater, binding.root, true)
+        return ActivityLoginBinding
+            .inflate(layoutInflater, binding.root, true)
     }
+
+    override val userDAO: UserDao
+        get() = AppDatabase.getInstance(this).userDao()
+
+    override val user: User
+        get() = userDAO.getUserById(1)
 
     private fun userToLogin() {
         //if (checkUserInfo()) {
@@ -246,6 +282,31 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     private fun isRememberMeChecked(): Boolean = binding.checkboxRememberMe.isChecked
 
     private fun isAutoLoginChecked(): Boolean = binding.checkboxAutomaticLogin.isChecked
+
+    private fun showLoginDialog() {
+        indeterminateProgressDialog("正在登录中", "请稍候") {
+            setCancelable(false)
+            setOnShowListener {
+                if (checkUserInfo()) {
+                    doAsync {
+                        userToLogin()
+                        uiThread {
+                            // DEBUG Message
+                            toast("Success")
+                        }
+                    }
+                } else {
+                    // DEBUG Message
+                    if (flagNumber)
+                        toast(getString(R.string.userid_cant_null))
+                    if (flagPasswd)
+                        toast(getString(R.string.password_cant_null))
+                }
+                it.dismiss()
+
+            }
+        }
+    }
 
     override fun setupToolbar() {
         val mToolbar = findViewById<Toolbar>(R.id.toolbar)

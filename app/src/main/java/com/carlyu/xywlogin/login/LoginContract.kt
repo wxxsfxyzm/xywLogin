@@ -3,6 +3,8 @@ package com.carlyu.xywlogin.login
 import android.content.Context
 import com.carlyu.xywlogin.base.BasePresenter
 import com.carlyu.xywlogin.base.BaseView
+import com.carlyu.xywlogin.room.User
+import com.carlyu.xywlogin.room.UserDao
 
 interface LoginContract {
 
@@ -32,6 +34,10 @@ interface LoginContract {
          * dp转px
          */
         fun dp2px(context: Context, dpVal: Float): Int
+
+        val user: User
+
+        val userDAO: UserDao
     }
 
     interface Presenter : BasePresenter {

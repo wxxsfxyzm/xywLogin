@@ -2,17 +2,17 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7a933d927a98298c7fdece95e7c280ef",
+    "identityHash": "09b84c4cad00f614a3fa322c97beb309",
     "entities": [
       {
         "tableName": "users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `user_name` TEXT NOT NULL, `user_passwd` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` INTEGER PRIMARY KEY AUTOINCREMENT, `user_name` TEXT NOT NULL, `user_passwd` TEXT NOT NULL, `net_type` TEXT NOT NULL, `ip_type` TEXT NOT NULL, `isRememberChecked` INTEGER NOT NULL, `isAutoLoginChecked` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "userId",
             "columnName": "userId",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "userName",
@@ -24,6 +24,30 @@
             "fieldPath": "userPasswd",
             "columnName": "user_passwd",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "netType",
+            "columnName": "net_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ipType",
+            "columnName": "ip_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isRememberChecked",
+            "columnName": "isRememberChecked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isAutoLoginChecked",
+            "columnName": "isAutoLoginChecked",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -40,7 +64,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7a933d927a98298c7fdece95e7c280ef')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '09b84c4cad00f614a3fa322c97beb309')"
     ]
   }
 }
