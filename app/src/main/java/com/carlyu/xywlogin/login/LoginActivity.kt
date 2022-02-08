@@ -25,7 +25,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
 
     private lateinit var netType: String
     private lateinit var ipType: String
-
+    private var flagNumber: Boolean = false
+    private var flagPasswd: Boolean = false
 
     companion object {
         fun startActivity(ctx: Context) {
@@ -55,13 +56,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                 ConnectUtils.isWifiNetwork(this).toString()
             )
         }.start()
-        // TODO PreProcess Functions
-        Thread {
+        // TODO
+        //  PreProcess Functions
+/*        Thread {
             if (isRememberMeChecked())
-                TODO("SQLite Operation")
-            if (isAutoLoginChecked())
-                TODO("Call Login Function")
-        }.start()
+            //TODO("SQLite Operation")
+                if (isAutoLoginChecked())
+                //TODO("Call Login Function")
+        }.start()*/
 
     }
 
@@ -197,12 +199,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                                 userToLogin()
                                 uiThread {
                                     // DEBUG Message
-                                    toast("Complete.")
+                                    toast("Success")
                                 }
                             }
-                        } else
-                        // DEBUG Message
-                            toast("ERROR")
+                        } else {
+                            // DEBUG Message
+                            if (flagNumber)
+                                toast(getString(R.string.userid_cant_null))
+                            if (flagPasswd)
+                                toast(getString(R.string.password_cant_null))
+                        }
                         it.dismiss()
 
                     }
@@ -225,11 +231,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         if (TextUtils.isEmpty(getUserById())) {
             binding.inputId.requestFocus()
             binding.inputId.error = getString(R.string.userid_cant_null)
+            flagNumber = true
             return false
         }
         if (TextUtils.isEmpty(getPwd())) {
             binding.password.requestFocus()
             binding.password.error = getString(R.string.password_cant_null)
+            flagPasswd = true
             return false
         }
         return true
@@ -275,7 +283,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         loginPresenter = presenter
     }
 
-
+    /**
+     * DP 转换 PX 的工具类
+     */
     override fun dp2px(context: Context, dpVal: Float): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
