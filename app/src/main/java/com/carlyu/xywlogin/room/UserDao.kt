@@ -6,10 +6,10 @@ import androidx.room.*
 interface UserDao {
 
     @Query("select * from users where userId = :id")
-    fun getUserById(id: Long): User
+    fun getUserById(id: Long): User?
 
     @Query("select * from users where user_name= :userName")
-    fun getUserByUserName(userName: String): User
+    fun getUserByUserName(userName: String): User?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)// ABORT / IGNORE
     fun addUser(user: User)

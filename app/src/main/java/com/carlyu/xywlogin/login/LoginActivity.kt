@@ -66,9 +66,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         // Thread {
         //DEBUG
         if (user != null)
-            if (user.isRememberChecked)
-
-                if (user.isAutoLoginChecked)
+            if (user!!.isRememberChecked)
+                if (user!!.isAutoLoginChecked)
                     showLoginDialog()
         // }.start()
 
@@ -166,14 +165,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         if (user == null) {
             binding.checkboxRememberMe.isChecked = true
             binding.checkboxAutomaticLogin.isChecked = false
-        } else if (user.isRememberChecked) {
+        } else if (user!!.isRememberChecked) {
             binding.checkboxRememberMe.isChecked = true
             /**
              * Fill UserInfo if Set in Database
              */
-            binding.inputId.setText(user.userName)
-            binding.password.setText(user.userPasswd)
-            if (user.isAutoLoginChecked)
+            binding.inputId.setText(user!!.userName)
+            binding.password.setText(user!!.userPasswd)
+            if (user!!.isAutoLoginChecked)
                 binding.checkboxAutomaticLogin.isChecked = true
         }
 
@@ -232,7 +231,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                     if (userDAO.getUserByUserName(getUserById()) != null)
                         userDAO.updateUserByUser(
                             User(
-                                userDAO.getUserByUserName(getUserById()).userId,
+                                userDAO.getUserByUserName(getUserById())!!.userId,
                                 getUserById(),
                                 getPwd(),
                                 netType,
@@ -242,6 +241,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                             )
                         )
                 }
+                finish()
             }
         }
     }
@@ -254,7 +254,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     override val userDAO: UserDao
         get() = AppDatabase.getInstance(this).userDao()
 
-    override val user: User
+    override val user: User?
         get() = userDAO.getUserById(1)
 
     private fun userToLogin() {

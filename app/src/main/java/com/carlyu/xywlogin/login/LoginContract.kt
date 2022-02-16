@@ -35,7 +35,7 @@ interface LoginContract {
          */
         fun dp2px(context: Context, dpVal: Float): Int
 
-        val user: User
+        val user: User?
 
         val userDAO: UserDao
     }
