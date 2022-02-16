@@ -5,9 +5,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
-/**
- * Created by Roman on 2021/1/24
- */
+
 class APIService {
 
 

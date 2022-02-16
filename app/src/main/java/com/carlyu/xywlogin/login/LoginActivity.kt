@@ -63,14 +63,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         }.start()
         // TODO
         //  PreProcess Functions
-        // Thread {
-        //DEBUG
-        if (user != null)
-            if (user!!.isRememberChecked)
-                if (user!!.isAutoLoginChecked)
-                    showLoginDialog()
-        // }.start()
-
+        //
+        // Interferes UIThread, so we must  use multi-thread with caution
+        Thread {
+            // DEBUG
+            if (user != null)
+                if (user!!.isRememberChecked)
+                    if (user!!.isAutoLoginChecked)
+                        runOnUiThread {
+                            showLoginDialog()
+                            finish()
+                        }
+        }.start()
     }
 
     // Already changed buttonType to solve the problem
@@ -310,7 +314,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
 
     override fun setupToolbar() {
         val mToolbar = findViewById<Toolbar>(R.id.toolbar)
-        mToolbar.title = "登录校园网"
+        mToolbar.title = getString(R.string.login_xyw)
 
         setSupportActionBar(mToolbar)
 

@@ -18,11 +18,7 @@ class RetrofitManager {
 
         private fun createRetrofit(url: String): Retrofit {
             val level: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
-            val loggingInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
-                override fun log(message: String) {
-                    Log.i("kotlin", "OkHttp: $message")
-                }
-            })
+            val loggingInterceptor = HttpLoggingInterceptor { message -> Log.i("kotlin", "OkHttp: $message") }
             loggingInterceptor.level = level
 
             val okHttpClientBuilder = OkHttpClient.Builder()
