@@ -13,4 +13,6 @@ object Constant {
     const val NJFU_WIFI_NINE: String = BaseConstant.BASE_URL_NJFU_WIFI_NINE
 
     const val LATEST_VERSION: Int = BaseConstant.USERDATABASE_LATEST_VERSION
+
+
 }

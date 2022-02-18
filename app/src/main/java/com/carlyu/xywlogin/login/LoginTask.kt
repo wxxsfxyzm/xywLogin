@@ -14,7 +14,7 @@ import retrofit2.Response
 
 
 class LoginTask : LoginContract.Task {
-    
+
     override fun login(
         userid: String?,
         password: String?,
@@ -34,35 +34,31 @@ class LoginTask : LoginContract.Task {
                 "Nine" -> NJFU_WIFI_NINE
                 "Lib" -> NJFU_WIFI_LIB_FIVE
                 "Five" -> NJFU_WIFI_LIB_FIVE
-                else -> "ERROR"
+                else -> throw MyException("ERROR")
             }
-            else -> "ERROR"
+            else -> throw MyException("ERROR")
         }
-        if (baseURL != "ERROR") {
-            val mLogin = RetrofitManager.getService(baseURL, APIService.Login::class.java)
-            Log.d("LoginTask", "$userid,$password,$R1,$R3,$R6,$para,$Key")
-            //mLogin.toLogin(userid!!, password!!, R1, R3, R6, para, Key)
-            val longCall = mLogin.toLogin(userid!!, password!!, R1, R3, R6, para, Key)
-            longCall.enqueue(object : Callback<Void> {
+        val mLogin = RetrofitManager.getService(baseURL, APIService.Login::class.java)
+        Log.d("LoginTask", "$userid,$password,$R1,$R3,$R6,$para,$Key")
+        //mLogin.toLogin(userid!!, password!!, R1, R3, R6, para, Key)
+        val longCall = mLogin.toLogin(userid!!, password!!, R1, R3, R6, para, Key)
+        longCall.enqueue(object : Callback<Void> {
 
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    onLoginCallBack.loginFail("登录失败")
-                }
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                onLoginCallBack.loginFail("登录失败")
+            }
 
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
 
-                    val result: Void? = response.body()
-                    Log.d("response", "$result")
+                val result: Void? = response.body()
+                Log.d("response", "$result")
 /*                    if (result != null && "0" == result.code) {
-                        onLoginCallBack.loginSuccess(result)
-                    } else {
-                        onLoginCallBack.loginFail(result!!.msg)
-                    }*/
-                }
-            })
+                    onLoginCallBack.loginSuccess(result)
+                } else {
+                    onLoginCallBack.loginFail(result!!.msg)
+                }*/
+            }
+        })
 
-        } else {//错误处理
-            throw MyException("ERROR")
-        }
     }
 }

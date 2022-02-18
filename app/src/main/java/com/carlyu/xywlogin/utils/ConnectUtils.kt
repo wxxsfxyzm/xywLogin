@@ -56,13 +56,17 @@ object ConnectUtils {
         return networkInfo != null && networkInfo.isConnected
     }
 
-
-    fun test2(context: Context) {
+    /**
+     * 设定网络接口
+     *
+     * @param context
+     */
+    fun setNetwork(context: Context) {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val builder = NetworkRequest.Builder()
 
-        // 设置指定的网络传输类型(蜂窝传输) 等于手机网络
-        builder.addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+        // 设置指定的网络传输类型(蜂窝传输/Wi-Fi) 等于手机网络
+        builder.addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
 
         // 设置感兴趣的网络功能
         // builder.addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
@@ -80,7 +84,7 @@ object ConnectUtils {
             @TargetApi(Build.VERSION_CODES.M)
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
-                Log.i("test", "已根据功能和传输类型找到合适的网络")
+                Log.i("TransportType", "已根据功能和传输类型找到合适的网络")
 
                 // 可以通过下面代码将app接下来的请求都绑定到这个网络下请求
                 connectivityManager.bindProcessToNetwork(network)

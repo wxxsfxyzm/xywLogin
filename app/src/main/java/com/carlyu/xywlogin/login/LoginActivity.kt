@@ -3,6 +3,7 @@ package com.carlyu.xywlogin.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock.sleep
 import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import com.carlyu.xywlogin.R
 import com.carlyu.xywlogin.base.BaseActivity
 import com.carlyu.xywlogin.databinding.ActivityLoginBinding
+import com.carlyu.xywlogin.exception.MyException
 import com.carlyu.xywlogin.room.AppDatabase
 import com.carlyu.xywlogin.room.User
 import com.carlyu.xywlogin.room.UserDao
@@ -64,16 +66,20 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         // TODO
         //  PreProcess Functions
         //
+        // DEBUG Auto Login
         // Interferes UIThread, so we must  use multi-thread with caution
         Thread {
-            // DEBUG
             if (user != null)
                 if (user!!.isRememberChecked)
-                    if (user!!.isAutoLoginChecked)
+                    if (user!!.isAutoLoginChecked) {
                         runOnUiThread {
-                            showLoginDialog()
-                            finish()
+                            showLoginDialog(true)
                         }
+                        // TODO Temporarily Set Sleep Time
+                        //  For Timeout From Java is 10s
+                        sleep(13000)
+                        finish()
+                    }
         }.start()
     }
 
@@ -104,7 +110,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         LoginPresenter(this)
         //userDAO = AppDatabase.getInstance(this).userDao()
         Thread {
-            
+            ConnectUtils.setNetwork(this)
         }.start()
 
     }
@@ -116,7 +122,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         netType = "CMCC_EDU"
         ipType = "Nine"
 
-        // Radio Group OnclickListener
+        /**
+         * Radio Group OnclickListener
+         */
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 binding.radioButtonCmccEdu.id -> kotlin.run {
@@ -164,40 +172,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
             }
         }
 
-
-        /**
-         * Two Checkboxes
-         */
-        // Set RememberMe Checkbox True To Default
-        // AutoLogin To False
-        if (user == null) {
-            binding.checkboxRememberMe.isChecked = true
-            binding.checkboxAutomaticLogin.isChecked = false
-        } else if (user!!.isRememberChecked) {
-            binding.checkboxRememberMe.isChecked = true
-            /**
-             * Fill UserInfo if Set in Database
-             */
-            binding.inputId.setText(user!!.userName)
-            binding.password.setText(user!!.userPasswd)
-            if (user!!.isAutoLoginChecked)
-                binding.checkboxAutomaticLogin.isChecked = true
-        }
-
-
-        // Handler For Checkbox RememberMe
-        binding.checkboxRememberMe.apply {
-            setOnCheckedChangeListener { _, _ ->
-                Log.d("checkboxRememberMe", "checked")
-            }
-            //if (user != null && user.isRememberChecked)
-            // check(true)
-        }
-        // DEBUG State Change
-        if (isRememberMeChecked()) {
-            Log.d("checkboxRememberMe", "checked")
-        }
-
         /**
          * Hidden Radio Group OnclickListener
          */
@@ -216,12 +190,68 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         }
 
         /**
+         * Two Checkboxes
+         */
+        // TODO
+        // Set RememberMe Checkbox True To Default
+        // AutoLogin To False
+        doAsync {
+            if (user == null) {
+                binding.checkboxRememberMe.isChecked = true
+                binding.checkboxAutomaticLogin.isChecked = false
+            } else if (user!!.isRememberChecked) {
+                // DEBUG Choose Checkbox
+                binding.radioGroup.check(
+                    when (user!!.netType) {
+                        "CMCC_EDU" -> binding.radioButtonCmccEdu.id
+                        "f-Young" -> binding.radioButtonFYoung.id
+                        "NJFU_WiFi" -> binding.radioButtonNjfuWifi.id
+                        else -> throw MyException("ERROR")
+                    }
+                )
+                if (user!!.netType == "NJFU_WiFi")
+                    binding.radioGroupHidden.check(
+                        when (user!!.ipType) {
+                            "Nine" -> binding.radioButtonNine.id
+                            "Five" -> binding.radioButtonFive.id
+                            "Lib" -> binding.radioButtonLib.id
+                            else -> throw MyException("ERROR")
+                        }
+                    )
+                binding.checkboxRememberMe.isChecked = true
+                /**
+                 * Fill UserInfo if Set in Database
+                 */
+                uiThread {
+                    binding.inputId.setText(user!!.userName)
+                    binding.password.setText(user!!.userPasswd)
+                }
+                if (user!!.isAutoLoginChecked)
+                    binding.checkboxAutomaticLogin.isChecked = true
+            }
+        }
+
+
+        // Handler For Checkbox RememberMe
+        binding.checkboxRememberMe.apply {
+            setOnCheckedChangeListener { _, _ ->
+                Log.d("checkboxRememberMe", "checked")
+            }
+            //if (user != null && user.isRememberChecked)
+            // check(true)
+        }
+        // DEBUG State Change
+        if (isRememberMeChecked()) {
+            Log.d("checkboxRememberMe", "checked")
+        }
+
+        /**
          * Loading Circle On Pressing Login
          */
         binding.loginBtnLogin.apply {
             textSize = 15F
             setOnClickListener {
-                showLoginDialog()
+                showLoginDialog(false)
                 doAsync {
                     // Log.d("User", userDAO.getUserByUserName(getUserById()).toString())
                     if (isRememberMeChecked() && userDAO.getUserByUserName(getUserById()) == null)
@@ -291,9 +321,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
 
     private fun isAutoLoginChecked(): Boolean = binding.checkboxAutomaticLogin.isChecked
 
-    private fun showLoginDialog() {
+    private fun showLoginDialog(cancelable: Boolean) {
         indeterminateProgressDialog("正在登录中", "请稍候") {
-            setCancelable(false)
+            setCancelable(cancelable)
             setOnShowListener {
                 if (checkUserInfo()) {
                     doAsync {
