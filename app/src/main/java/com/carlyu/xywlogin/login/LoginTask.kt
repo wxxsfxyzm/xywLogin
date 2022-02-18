@@ -1,6 +1,7 @@
 package com.carlyu.xywlogin.login
 
 import android.util.Log
+import com.carlyu.xywlogin.common.Constant
 import com.carlyu.xywlogin.common.Constant.CMCC_URL
 import com.carlyu.xywlogin.common.Constant.FYOUNG_URL
 import com.carlyu.xywlogin.common.Constant.NJFU_WIFI_LIB_FIVE
@@ -34,9 +35,9 @@ class LoginTask : LoginContract.Task {
                 "Nine" -> NJFU_WIFI_NINE
                 "Lib" -> NJFU_WIFI_LIB_FIVE
                 "Five" -> NJFU_WIFI_LIB_FIVE
-                else -> throw MyException("ERROR")
+                else -> throw MyException(Constant.ResultEnum.INTERNAL_ERROR)
             }
-            else -> throw MyException("ERROR")
+            else -> throw MyException(Constant.ResultEnum.INTERNAL_ERROR)
         }
         val mLogin = RetrofitManager.getService(baseURL, APIService.Login::class.java)
         Log.d("LoginTask", "$userid,$password,$R1,$R3,$R6,$para,$Key")

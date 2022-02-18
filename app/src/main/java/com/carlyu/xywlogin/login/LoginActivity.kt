@@ -12,6 +12,8 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.carlyu.xywlogin.R
 import com.carlyu.xywlogin.base.BaseActivity
+import com.carlyu.xywlogin.common.Constant.ResultEnum.IP_TYPE_ERROR
+import com.carlyu.xywlogin.common.Constant.ResultEnum.NET_TYPE_ERROR
 import com.carlyu.xywlogin.databinding.ActivityLoginBinding
 import com.carlyu.xywlogin.exception.MyException
 import com.carlyu.xywlogin.room.AppDatabase
@@ -209,7 +211,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                         "CMCC_EDU" -> binding.radioButtonCmccEdu.id
                         "f-Young" -> binding.radioButtonFYoung.id
                         "NJFU_WiFi" -> binding.radioButtonNjfuWifi.id
-                        else -> throw MyException("ERROR")
+                        else -> throw MyException(NET_TYPE_ERROR)
                     }
                 )
                 if (user!!.netType == "NJFU_WiFi")
@@ -218,7 +220,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                             "Nine" -> binding.radioButtonNine.id
                             "Five" -> binding.radioButtonFive.id
                             "Lib" -> binding.radioButtonLib.id
-                            else -> throw MyException("ERROR")
+                            else -> throw MyException(IP_TYPE_ERROR)
                         }
                     )
                 binding.checkboxRememberMe.isChecked = true
