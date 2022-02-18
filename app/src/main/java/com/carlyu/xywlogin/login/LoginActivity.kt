@@ -35,7 +35,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     private lateinit var ipType: String
     private var flagNumber: Boolean = false
     private var flagPasswd: Boolean = false
-
+    private var isLoginSuccessful: Boolean = false
 
     companion object {
         fun startActivity(ctx: Context) {
@@ -80,8 +80,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                         }
                         // TODO Temporarily Set Sleep Time
                         //  For Timeout From Java is 10s
-                        sleep(13000)
-                        finish()
+                        //sleep(13000)
+                        // finishAfterMS(3000)
                     }
         }.start()
     }
@@ -257,6 +257,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
             textSize = 15F
             setOnClickListener {
                 showLoginDialog(false)
+                // Update Database
                 doAsync {
                     // Log.d("User", userDAO.getUserByUserName(getUserById()).toString())
                     if (isRememberMeChecked() && userDAO.getUserByUserName(getUserById()) == null)
@@ -284,7 +285,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                             )
                         )
                 }
-                finish()
+                // finishAfterMS(0)
             }
         }
     }
@@ -333,10 +334,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                 if (checkUserInfo()) {
                     doAsync {
                         userToLogin()
-                        uiThread {
-                            // DEBUG Message
-                            toast("Success")
-                        }
+                        // TODO
+                        //  Check If Succeed
+                        if (isLoginSuccessful)
+                            uiThread {
+                                // DEBUG Message
+                                toast("Success")
+                            }
                     }
                 } else {
                     // DEBUG Message
@@ -359,7 +363,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
 
     }
 
-    fun finishOverride() {
+    private fun finishAfterMS(ms: Long) {
+        sleep(ms)
         super.finish()
     }
 
@@ -380,11 +385,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         binding.password.text.toString()
 
     override fun loginSuccess() {
-
+        isLoginSuccessful = true
     }
 
     override fun loginFail(msg: String) {
-
+        toast(msg)
+        isLoginSuccessful = false
     }
 
     override fun setPresenter(presenter: LoginContract.Presenter) {

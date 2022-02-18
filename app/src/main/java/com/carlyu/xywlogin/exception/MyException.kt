@@ -3,8 +3,7 @@ package com.carlyu.xywlogin.exception
 import com.carlyu.xywlogin.common.Constant.ResultEnum
 
 
-class MyException :
-    Exception {
+class MyException : Exception {
     private val code: Int
 
     constructor(code: Int, message: String?) : super(message) {

@@ -45,6 +45,7 @@ class LoginTask : LoginContract.Task {
         val longCall = mLogin.toLogin(userid!!, password!!, R1, R3, R6, para, Key)
         longCall.enqueue(object : Callback<Void> {
 
+
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 onLoginCallBack.loginFail("登录失败")
             }
