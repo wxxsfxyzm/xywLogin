@@ -103,6 +103,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     override fun initData() {
         LoginPresenter(this)
         //userDAO = AppDatabase.getInstance(this).userDao()
+        Thread {
+            
+        }.start()
+
     }
 
     override fun initViews() {
@@ -318,6 +322,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
 
         setSupportActionBar(mToolbar)
 
+    }
+
+    fun finishOverride() {
+        super.finish()
     }
 
     /*    override fun getUserById(): Int {
