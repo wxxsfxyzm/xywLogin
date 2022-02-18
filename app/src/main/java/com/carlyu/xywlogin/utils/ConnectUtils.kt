@@ -9,6 +9,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
 import android.util.Log
+import com.carlyu.xywlogin.exception.NetworkPreferenceException
 
 object ConnectUtils {
     /**
@@ -61,7 +62,12 @@ object ConnectUtils {
      *
      * @param context
      */
-    fun setNetwork(context: Context) {
+    fun setNetwork(context: Context, transportType: Int) {
+        if (transportType != NetworkCapabilities.TRANSPORT_WIFI &&
+            transportType != NetworkCapabilities.TRANSPORT_CELLULAR &&
+            transportType != NetworkCapabilities.TRANSPORT_VPN
+        )
+            throw NetworkPreferenceException("请检查传输类型！")
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val builder = NetworkRequest.Builder()
 

@@ -2,6 +2,7 @@ package com.carlyu.xywlogin.login
 
 import android.content.Context
 import android.content.Intent
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.SystemClock.sleep
 import android.text.TextUtils
@@ -109,8 +110,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     override fun initData() {
         LoginPresenter(this)
         //userDAO = AppDatabase.getInstance(this).userDao()
+        // DEBUG Thread
+        //  Set Network
         Thread {
-            ConnectUtils.setNetwork(this)
+            ConnectUtils.setNetwork(this, NetworkCapabilities.TRANSPORT_WIFI)
         }.start()
 
     }
@@ -237,8 +240,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
             setOnCheckedChangeListener { _, _ ->
                 Log.d("checkboxRememberMe", "checked")
             }
-            //if (user != null && user.isRememberChecked)
-            // check(true)
+            //  if (user != null && user.isRememberChecked)
+            //      check(true)
         }
         // DEBUG State Change
         if (isRememberMeChecked()) {
@@ -296,9 +299,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         get() = userDAO.getUserById(1)
 
     private fun userToLogin() {
-        //if (checkUserInfo()) {
+        // if (checkUserInfo()) {
         loginPresenter?.goLogin(getUserById(), getPwd(), netType, ipType)
-        //}
+        // }
     }
 
     private fun checkUserInfo(): Boolean {
