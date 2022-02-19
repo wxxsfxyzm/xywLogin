@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="CustomAppTheme_textInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="colorPrimary">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/colorAccent</item><!--默认显示下划线的颜色-->
-        <item name="colorControlActivated">@color/colorAccent</item><!--点击后下划线的颜色-->
+    <style name="CustomAppTheme_textInputLayout" parent="Widget.Material3.TextInputEditText.OutlinedBox">
+        <item name="colorPrimary">@color/material_dynamic_primary50</item>
+        <item name="colorControlNormal">@color/material_dynamic_primary60</item><!--默认显示下划线的颜色-->
+        <item name="colorControlActivated">@color/material_dynamic_primary50</item><!--点击后下划线的颜色-->
+        <item name="boxStrokeColor">@color/material_dynamic_primary60</item>
     </style>
 </resources>

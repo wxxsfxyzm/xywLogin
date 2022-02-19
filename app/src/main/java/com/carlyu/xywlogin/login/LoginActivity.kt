@@ -80,7 +80,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                         }
                         // TODO Temporarily Set Sleep Time
                         //  For Timeout From Java is 10s
-                        //sleep(13000)
+                        // sleep(13000)
                         // finishAfterMS(3000)
                     }
         }.start()
@@ -121,6 +121,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     }
 
     override fun initViews() {
+
         /**
          * Initialize Values
          */
@@ -356,10 +357,27 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     }
 
     override fun setupToolbar() {
-        val mToolbar = findViewById<Toolbar>(R.id.toolbar)
-        mToolbar.title = getString(R.string.login_xyw)
+        val topAppBar = findViewById<Toolbar>(R.id.toolbar)
+        topAppBar.title = getString(R.string.login_xyw)
+        topAppBar.subtitle = getString(R.string.app_intro)
 
-        setSupportActionBar(mToolbar)
+        topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.favorite -> {
+                    // Handle favorite icon press
+                    toast("Thanks!")
+                    true
+                }
+/*                R.id.more -> {
+                    // Handle more item (inside overflow menu) press
+                    true
+                }*/
+                else -> false
+            }
+        }
+
+        // No longer Needed
+        // setSupportActionBar(mToolbar)
 
     }
 
@@ -406,4 +424,25 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
             dpVal, context.resources.displayMetrics
         ).toInt()
     }
+
+    //用来控制Fragment的显示隐藏
+    /*fun showFragment(fragment: Fragment, fm: FragmentManager) {
+        //判断当前显示的是否是需要展示的Framgnet，可以省略不必要步骤
+        if (currentFragment != fragment) {
+            //隐藏当前Fragment
+            val transaction = fm.beginTransaction()
+            transaction.hide(currentFragment)
+            //将fragment替换成目前传入的fragment
+            currentFragment = fragment
+            //判断当前fragment是否添加进事务中
+            if (!fragment.isAdded) {
+                //添加显示
+                transaction.add(R.id.fl_layout, fragment).show(fragment).commit()
+            } else {
+                //显示
+                transaction.show(fragment).commit()
+            }
+        }
+    }*/
+
 }

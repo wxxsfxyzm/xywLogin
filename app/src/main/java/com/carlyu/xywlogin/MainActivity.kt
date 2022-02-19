@@ -1,3 +1,4 @@
+/*
 package com.carlyu.xywlogin
 
 import android.content.Context
@@ -63,4 +64,4 @@ class MainActivity : AppCompatActivity() {
             ctx.startActivity(intent)
         }
     }
-}
+}*/

@@ -52,7 +52,6 @@ android {
         }
 
         dependencies {
-            //implementation("javax.annotation.processing:1.3.2")
             implementation("com.dylanc:viewbinding-ktx:1.0.0")
             implementation("org.jetbrains.anko:anko-commons:$ankoVersion")
             implementation("androidx.core:core-ktx:1.6.0")
@@ -61,7 +60,7 @@ android {
             implementation("androidx.room:room-common:$roomVersion")
             implementation("androidx.room:room-ktx:$roomVersion")
             kapt("androidx.room:room-compiler:$roomVersion")
-            implementation("com.google.android.material:material:1.4.0")
+            implementation("com.google.android.material:material:1.5.0")
             implementation("androidx.constraintlayout:constraintlayout:2.1.2")
             implementation("com.squareup.retrofit2:retrofit:2.9.0")
             implementation("com.squareup.retrofit2:converter-gson:2.9.0")
