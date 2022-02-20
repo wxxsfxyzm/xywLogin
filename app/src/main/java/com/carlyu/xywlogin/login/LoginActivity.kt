@@ -135,8 +135,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
 
     override fun initViews() {
         // TODO SEPARATE FRAGMENTS
+        
 
-        // DEBUG HERE
         if (BuildVersion < S) {
             binding.usernameLayout.apply {
                 boxStrokeColor = getColor(R.color.colorAccent)
