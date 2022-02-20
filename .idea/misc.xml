@@ -13,7 +13,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.154" />
         <entry key="app/src/main/res/drawable/ic_favorite_24dp.xml" value="0.154" />
         <entry key="app/src/main/res/layout/activity_balance.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.32197723388671873" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.259375" />
         <entry key="app/src/main/res/layout/navigation.xml" value="0.16236068895643363" />

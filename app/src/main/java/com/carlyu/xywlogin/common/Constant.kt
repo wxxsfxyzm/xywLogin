@@ -1,11 +1,13 @@
 package com.carlyu.xywlogin.common
 
+import android.os.Build
 import com.carlyu.xywlogin.base.BaseConstant
 
 /**
  * 常量
  */
 object Constant {
+    const val S:Int= Build.VERSION_CODES.S
 
     const val CMCC_URL: String = BaseConstant.BASE_URL_CMCC
     const val FYOUNG_URL: String = BaseConstant.BASE_URL_FYOUNG

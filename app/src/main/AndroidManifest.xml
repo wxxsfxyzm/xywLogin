@@ -16,10 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.LoginDemo">
-        <activity
-            android:name="com.carlyu.xywlogin.MainActivity"
-            android:exported="false" />
+        android:theme="@style/Theme.OldApp">
+
         <activity
             android:name="com.carlyu.xywlogin.login.LoginActivity"
             android:exported="true">

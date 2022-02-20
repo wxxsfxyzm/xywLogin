@@ -3,17 +3,20 @@ package com.carlyu.xywlogin.login
 import android.content.Context
 import android.content.Intent
 import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock.sleep
 import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
 import com.carlyu.xywlogin.R
 import com.carlyu.xywlogin.base.BaseActivity
 import com.carlyu.xywlogin.common.Constant.ResultEnum.IP_TYPE_ERROR
 import com.carlyu.xywlogin.common.Constant.ResultEnum.NET_TYPE_ERROR
+import com.carlyu.xywlogin.common.Constant.S
 import com.carlyu.xywlogin.databinding.ActivityLoginBinding
 import com.carlyu.xywlogin.exception.MyException
 import com.carlyu.xywlogin.room.AppDatabase
@@ -21,6 +24,7 @@ import com.carlyu.xywlogin.room.User
 import com.carlyu.xywlogin.room.UserDao
 import com.carlyu.xywlogin.utils.ConnectUtils
 import com.carlyu.xywlogin.utils.toast
+import com.google.android.material.navigation.NavigationBarView
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.uiThread
@@ -28,6 +32,8 @@ import org.jetbrains.anko.uiThread
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     LoginContract.View {
+
+    private val BuildVersion = Build.VERSION.SDK_INT
 
     private var loginPresenter: LoginContract.Presenter? = null
 
@@ -45,7 +51,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Enable Dynamic Coloring On Android S
+        if (BuildVersion >= S)
+            setTheme(R.style.Theme_LoginDemo)
         super.onCreate(savedInstanceState)
+
         //  DEBUG Thread
         Thread {
             Log.d(
@@ -65,6 +75,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
                 ConnectUtils.isWifiNetwork(this).toString()
             )
             Log.d("Context", this.applicationContext.toString())
+            Log.d("ThemeOldAppId", R.style.Theme_OldApp.toString())
+            Log.d("ThemeLoginDemoId", R.style.Theme_LoginDemo.toString())
+            Log.d("Theme", theme.toString())
         }.start()
         // TODO
         //  PreProcess Functions
@@ -121,6 +134,20 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     }
 
     override fun initViews() {
+        // TODO SEPARATE FRAGMENTS
+
+        // DEBUG HERE
+        if (BuildVersion < S) {
+            binding.usernameLayout.apply {
+                boxStrokeColor = getColor(R.color.colorAccent)
+                setHintTextAppearance(R.style.CustomAppTheme_textInputLayout)
+            }
+            binding.passwordLayout.apply {
+                boxStrokeColor = getColor(R.color.colorAccent)
+                setHintTextAppearance(R.style.CustomAppTheme_textInputLayout)
+            }
+        }
+
 
         /**
          * Initialize Values
@@ -198,7 +225,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         /**
          * Two Checkboxes
          */
-        // TODO
         // Set RememberMe Checkbox True To Default
         // AutoLogin To False
         doAsync {
@@ -254,8 +280,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         /**
          * Loading Circle On Pressing Login
          */
+        val contextThemeWrapper = ContextThemeWrapper(this, R.style.CustomButtonStyle);
         binding.loginBtnLogin.apply {
             textSize = 15F
+            if (Build.VERSION.SDK_INT >= S)
+                setTextAppearance(R.style.Material3Button)
+            else {
+                setBackgroundColor(getColor(R.color.register_button))
+            }
             setOnClickListener {
                 showLoginDialog(false)
                 // Update Database
@@ -324,6 +356,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         return true
     }
 
+
     private fun isRememberMeChecked(): Boolean = binding.checkboxRememberMe.isChecked
 
     private fun isAutoLoginChecked(): Boolean = binding.checkboxAutomaticLogin.isChecked
@@ -357,15 +390,28 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
     }
 
     override fun setupToolbar() {
+        /**
+         * Set TopAppBar
+         */
         val topAppBar = findViewById<Toolbar>(R.id.toolbar)
         topAppBar.title = getString(R.string.login_xyw)
         topAppBar.subtitle = getString(R.string.app_intro)
+        if (BuildVersion < S)
+            topAppBar.setBackgroundColor(getColor(R.color.white))
 
+        var isFavClicked = false
         topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorite -> {
                     // Handle favorite icon press
-                    toast("Thanks!")
+                    if (!isFavClicked) {
+                        topAppBar.menu.findItem(R.id.favorite).icon = getDrawable(R.drawable.ic_baseline_favorite_24)
+                        toast("Thanks!")
+                    } else {
+                        topAppBar.menu.findItem(R.id.favorite).icon = getDrawable(R.drawable.ic_outline_favorite_border_24)
+                        toast("Sad!")
+                    }
+                    isFavClicked = !isFavClicked
                     true
                 }
 /*                R.id.more -> {
@@ -379,6 +425,53 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         // No longer Needed
         // setSupportActionBar(mToolbar)
 
+        /**
+         * Set BottomNavigationBar
+         */
+        val bottomNavigationBar = findViewById<NavigationBarView>(R.id.bottom_navigation)
+
+        var isPage1Selected = true
+        var isPage2Selected = false
+        var isPage3Selected = false
+        bottomNavigationBar.apply {
+            setOnItemSelectedListener {
+                when (it.itemId) {
+                    R.id.page_1 -> {
+                        bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_baseline_star_24)
+                        bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_outline_science_24)
+                        bottomNavigationBar.menu.findItem(R.id.page_3).icon = getDrawable(R.drawable.ic_outline_settings_24)
+                        true
+                    }
+                    R.id.page_2 -> {
+                        bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_outline_star_border_24)
+                        bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_baseline_science_24)
+                        bottomNavigationBar.menu.findItem(R.id.page_3).icon = getDrawable(R.drawable.ic_outline_settings_24)
+                        true
+                    }
+                    R.id.page_3 -> {
+                        bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_outline_star_border_24)
+                        bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_outline_science_24)
+                        bottomNavigationBar.menu.findItem(R.id.page_3).icon = getDrawable(R.drawable.ic_baseline_settings_24)
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
+        // Reselection Handler
+/*        bottomNavigationBar.setOnItemReselectedListener { item ->
+            when (item.itemId) {
+                R.id.page_1 -> {
+                    // Respond to navigation item 1 reselection
+                }
+                R.id.page_2 -> {
+                    // Respond to navigation item 2 reselection
+                }
+                R.id.page_3 -> {
+
+                }
+            }
+        }*/
     }
 
     private fun finishAfterMS(ms: Long) {
@@ -425,8 +518,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(),
         ).toInt()
     }
 
+    // TODO FRAGMENT CONTROLLER
     //用来控制Fragment的显示隐藏
-    /*fun showFragment(fragment: Fragment, fm: FragmentManager) {
+/*    fun showFragment(fragment: Fragment, fm: FragmentManager) {
         //判断当前显示的是否是需要展示的Framgnet，可以省略不必要步骤
         if (currentFragment != fragment) {
             //隐藏当前Fragment

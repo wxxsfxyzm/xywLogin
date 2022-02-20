@@ -3,8 +3,8 @@ package com.carlyu.xywlogin.common
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.os.Build
 import com.carlyu.xywlogin.R
-import com.google.android.material.color.DynamicColors
 
 /**
  * Created by Roman on 2021/1/11
@@ -17,7 +17,8 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
-        DynamicColors.applyToActivitiesIfAvailable(this, R.style.Theme_LoginDemo)
+
+        //DynamicColors.applyToActivitiesIfAvailable(this)//, R.style.Theme_LoginDemo)
     }
 
     companion object {
