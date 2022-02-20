@@ -1,6 +1,5 @@
 package com.carlyu.xywlogin.login
 
-import android.content.Context
 import com.carlyu.xywlogin.base.BasePresenter
 import com.carlyu.xywlogin.base.BaseView
 import com.carlyu.xywlogin.room.User
@@ -29,11 +28,7 @@ interface LoginContract {
          * 登陆失败
          */
         fun loginFail(msg: String)
-
-        /**
-         * dp转px
-         */
-        fun dp2px(context: Context, dpVal: Float): Int
+        
 
         val user: User?
 

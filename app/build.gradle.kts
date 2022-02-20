@@ -37,8 +37,8 @@ android {
             }
 
             compileOptions {
-                sourceCompatibility("11")
-                targetCompatibility("11")
+                sourceCompatibility = JavaVersion.VERSION_1_8
+                targetCompatibility = JavaVersion.VERSION_1_8
             }
 
             kotlinOptions {
@@ -55,6 +55,7 @@ android {
             implementation("com.dylanc:viewbinding-ktx:1.0.0")
             implementation("org.jetbrains.anko:anko-commons:$ankoVersion")
             implementation("androidx.core:core-ktx:1.6.0")
+            implementation("androidx.legacy:legacy-support-v4:1.0.0")
             implementation("androidx.appcompat:appcompat:1.4.0")
             implementation("androidx.room:room-runtime:$roomVersion")
             implementation("androidx.room:room-common:$roomVersion")
@@ -72,8 +73,5 @@ android {
             androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
+
 }
