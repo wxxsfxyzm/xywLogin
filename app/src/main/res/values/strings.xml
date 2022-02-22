@@ -61,4 +61,6 @@
     <string name="app_intro">南林，你好</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="settings">设置</string>
+    <string name="settings_subtitle">一些小小的设置...</string>
 </resources>

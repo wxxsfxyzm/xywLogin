@@ -8,12 +8,13 @@ import android.os.SystemClock.sleep
 import android.util.Log
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.carlyu.xywlogin.R
 import com.carlyu.xywlogin.base.BaseActivity
 import com.carlyu.xywlogin.common.Constant.S
 import com.carlyu.xywlogin.common.Constant.buildVersion
 import com.carlyu.xywlogin.databinding.ActivityLoginBinding
+import com.carlyu.xywlogin.exception.MyException
 import com.carlyu.xywlogin.utils.ConnectUtils
 import com.carlyu.xywlogin.utils.toast
 import com.google.android.material.navigation.NavigationBarView
@@ -21,7 +22,8 @@ import com.google.android.material.navigation.NavigationBarView
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
-    private val loginFragment = LoginFragment()
+    private val loginFragment = LoginFragment() as Fragment
+    private val settingsFragment = SettingsFragment() as Fragment
 
     private var currentFragment = loginFragment
 
@@ -82,7 +84,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
     override fun initViews() {
         // TODO SEPARATE FRAGMENTS
-
+        addFragment()
+        try {
+            switchFragment(currentFragment)
+        } catch (e: MyException) {
+            e.stackTrace
+        }
 
     }
 
@@ -133,28 +140,22 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
          */
         val bottomNavigationBar = findViewById<NavigationBarView>(R.id.bottom_navigation)
 
-        var isPage1Selected = true
-        var isPage2Selected = false
-        var isPage3Selected = false
         bottomNavigationBar.apply {
             setOnItemSelectedListener {
                 when (it.itemId) {
                     R.id.page_1 -> {
-                        bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_baseline_star_24)
-                        bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_outline_science_24)
-                        bottomNavigationBar.menu.findItem(R.id.page_3).icon = getDrawable(R.drawable.ic_outline_settings_24)
+                        navigationToMainFragment(this, topAppBar)
                         true
                     }
                     R.id.page_2 -> {
                         bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_outline_star_border_24)
                         bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_baseline_science_24)
                         bottomNavigationBar.menu.findItem(R.id.page_3).icon = getDrawable(R.drawable.ic_outline_settings_24)
+                        toast("别搞，还没写好")
                         true
                     }
                     R.id.page_3 -> {
-                        bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_outline_star_border_24)
-                        bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_outline_science_24)
-                        bottomNavigationBar.menu.findItem(R.id.page_3).icon = getDrawable(R.drawable.ic_baseline_settings_24)
+                        navigationToSettingFragment(this, topAppBar)
                         true
                     }
                     else -> false
@@ -162,7 +163,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             }
         }
         // Reselection Handler
-/*        bottomNavigationBar.setOnItemReselectedListener { item ->
+        /* bottomNavigationBar.setOnItemReselectedListener { item ->
             when (item.itemId) {
                 R.id.page_1 -> {
                     // Respond to navigation item 1 reselection
@@ -177,42 +178,90 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         }*/
     }
 
+    /**
+     * Call finish() after ms
+     *
+     * @param ms MilliSeconds
+     */
     private fun finishAfterMS(ms: Long) {
         sleep(ms)
         super.finish()
     }
 
-    /*    override fun getUserById(): Int {
-            return if (userid.text.toString() == "")
-                0
-            else
-                try {
-                    userid.text.toString().toInt()
-                } catch (e: NumberFormatException) {
-                    -1
-                }
-        }*/
+    /**
+     * Function called when navigate to Main Fragment
+     *
+     * @param bottomNavigationBar NavigationBarView Instance
+     * @param topAppBar Toolbar Instance
+     */
+    private fun navigationToMainFragment(bottomNavigationBar: NavigationBarView, topAppBar: Toolbar) {
+        topAppBar.apply {
+            title = getString(R.string.login_xyw)
+            subtitle = getString(R.string.app_intro)
+        }
+        bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_baseline_star_24)
+        bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_outline_science_24)
+        bottomNavigationBar.menu.findItem(R.id.page_3).icon = getDrawable(R.drawable.ic_outline_settings_24)
+        if (currentFragment != loginFragment)
+            switchFragment(loginFragment)
+    }
+
+    /**
+     * Function called when navigate to Settings Fragment
+     *
+     * @param bottomNavigationBar NavigationBarView Instance
+     * @param topAppBar Toolbar Instance
+     */
+    private fun navigationToSettingFragment(bottomNavigationBar: NavigationBarView, topAppBar: Toolbar) {
+        topAppBar.apply {
+            title = getString(R.string.settings)
+            subtitle = getString(R.string.settings_subtitle)
+        }
+        bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_outline_star_border_24)
+        bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_outline_science_24)
+        bottomNavigationBar.menu.findItem(R.id.page_3).icon = getDrawable(R.drawable.ic_baseline_settings_24)
+        if (currentFragment != settingsFragment)
+            switchFragment(settingsFragment)
+
+    }
 
 
     // TODO FRAGMENT CONTROLLER
-    //用来控制Fragment的显示隐藏
-    fun showFragment(fragment: Fragment, fm: FragmentManager) {
-        //判断当前显示的是否是需要展示的Fragment，可以省略不必要步骤
-        if (currentFragment != fragment) {
-            //隐藏当前Fragment
-            val transaction = fm.beginTransaction()
-            //transaction.hide(currentFragment)
-            //将fragment替换成目前传入的fragment
-            //currentFragment = fragment as
-            //判断当前fragment是否添加进事务中
-            if (!fragment.isAdded) {
-                //添加显示
-                transaction.add(R.id.fragment1, fragment).show(fragment).commit()
-            } else {
-                //显示
-                transaction.show(fragment).commit()
-            }
+    /**
+     * 用来控制Fragment的显示隐藏
+     * 持久化Fragment
+     */
+    private fun addFragment() {
+        val transaction: FragmentTransaction = supportFragmentManager
+            .beginTransaction()
+        transaction.apply {
+            add(R.id.fragment, loginFragment)
+            // TODO Developing Fragment
+            // add(R.id.fragment,DevelopingFragment)
+            add(R.id.fragment, settingsFragment)
+            hide(settingsFragment)
+        }.commit()
+        //transaction.add(R.id.fragment, settingsFragment).commit()
+    }
+
+    /**
+     * Fragment Switcher
+     * @exception MyException(-256, "targetFragmentNotAdded")
+     * @param targetFragment Fragment
+     */
+    private fun switchFragment(targetFragment: Fragment) {
+        val transaction: FragmentTransaction = supportFragmentManager
+            .beginTransaction()
+        if (!targetFragment.isAdded) {
+            // TODO Exception Code
+            throw MyException(-256, "targetFragmentNotAdded")
+        } else {
+            transaction
+                .hide(currentFragment)
+                .show(targetFragment)
+                .commit()
         }
+        currentFragment = targetFragment
     }
 
 }
