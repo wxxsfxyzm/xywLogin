@@ -40,9 +40,9 @@ class LoginTask : LoginContract.Task {
             else -> throw MyException(Constant.ResultEnum.INTERNAL_ERROR)
         }
         val mLogin = RetrofitManager.getService(baseURL, APIService.Login::class.java)
-        Log.d("LoginTask", "$userid,$password,$R1,$R3,$R6,$para,$Key")
+        Log.d("LoginTask", "w$userid,$password,$R1,$R3,$R6,$para,$Key")
         //mLogin.toLogin(userid!!, password!!, R1, R3, R6, para, Key)
-        val longCall = mLogin.toLogin(userid!!, password!!, R1, R3, R6, para, Key)
+        val longCall = mLogin.toLogin("w" + userid!!, password!!, R1, R3, R6, para, Key)
         longCall.enqueue(object : Callback<Void> {
 
 

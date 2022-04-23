@@ -14,6 +14,12 @@ import com.dylanc.viewbinding.inflateBindingWithGeneric
 abstract class BaseFragment<T : ViewBinding> : Fragment() {
     lateinit var binding: T
 
+    // DEBUG Duplicate for test
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,11 +30,14 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
         return binding.root
     }
 
+
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         initData()
         initViews()
+
+
     }
 
     override fun onDestroy() {

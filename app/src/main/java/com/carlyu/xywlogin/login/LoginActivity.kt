@@ -1,12 +1,16 @@
 package com.carlyu.xywlogin.login
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.SystemClock.sleep
 import android.util.Log
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.carlyu.xywlogin.R
@@ -38,6 +42,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         // Enable Dynamic Coloring On Android S
         if (buildVersion >= S)
             setTheme(R.style.Theme_LoginDemo)
+
         super.onCreate(savedInstanceState)
 
         //  DEBUG Thread
@@ -59,37 +64,35 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 ConnectUtils.isWifiNetwork(this).toString()
             )
             Log.d("Context", this.applicationContext.toString())
-            Log.d("ThemeOldAppId", R.style.Theme_OldApp.toString())
-            Log.d("ThemeLoginDemoId", R.style.Theme_LoginDemo.toString())
-            Log.d("Theme", theme.toString())
         }.start()
-        // TODO
-        //  PreProcess Functions
-        //
-        // DEBUG Auto Login
-        // Interferes UIThread, so we must  use multi-thread with caution
+
 
     }
 
     override fun initData() {
-
-        //userDAO = AppDatabase.getInstance(this).userDao()
-        // DEBUG Thread
         //  Set Network
-        Thread {
-            ConnectUtils.setNetwork(this, NetworkCapabilities.TRANSPORT_WIFI)
-        }.start()
+        //Thread {
+        ConnectUtils.setNetwork(this, NetworkCapabilities.TRANSPORT_WIFI)
+        //}.start()
 
     }
 
     override fun initViews() {
-        // TODO SEPARATE FRAGMENTS
-        addFragment()
-        try {
-            switchFragment(currentFragment)
-        } catch (e: MyException) {
-            e.stackTrace
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        // 设置状态栏和导航栏的底色，透明
+        window.statusBarColor = Color.TRANSPARENT
+
+        window.navigationBarColor = Color.TRANSPARENT
+        window.navigationBarDividerColor = Color.TRANSPARENT
+
+        //设置沉浸后状态栏和导航字体的颜色，
+        ViewCompat.getWindowInsetsController(window.decorView)?.let { controller ->
+
+            //isAppearanceLightStatusBars = isBlack
+            //controller.isAppearanceLightNavigationBars = isBlack
         }
+        addFragment()
+        // switchFragment(currentFragment)
 
     }
 
@@ -98,7 +101,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             .inflate(layoutInflater, binding.root, true)
     }
 
-
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun setupToolbar() {
         /**
          * Set TopAppBar
@@ -106,6 +109,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         val topAppBar = findViewById<Toolbar>(R.id.toolbar)
         topAppBar.title = getString(R.string.login_xyw)
         topAppBar.subtitle = getString(R.string.app_intro)
+
         if (buildVersion < S)
             topAppBar.setBackgroundColor(getColor(R.color.white))
 
@@ -132,9 +136,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             }
         }
 
-        // No longer Needed
-        // setSupportActionBar(mToolbar)
-
         /**
          * Set BottomNavigationBar
          */
@@ -148,6 +149,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                         true
                     }
                     R.id.page_2 -> {
+                        // TODO Page Two
                         bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_outline_star_border_24)
                         bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_baseline_science_24)
                         bottomNavigationBar.menu.findItem(R.id.page_3).icon = getDrawable(R.drawable.ic_outline_settings_24)
@@ -194,7 +196,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
      * @param bottomNavigationBar NavigationBarView Instance
      * @param topAppBar Toolbar Instance
      */
-    private fun navigationToMainFragment(bottomNavigationBar: NavigationBarView, topAppBar: Toolbar) {
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun navigationToMainFragment(
+        bottomNavigationBar: NavigationBarView,
+        topAppBar: Toolbar
+    ) {
         topAppBar.apply {
             title = getString(R.string.login_xyw)
             subtitle = getString(R.string.app_intro)
@@ -202,8 +208,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_baseline_star_24)
         bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_outline_science_24)
         bottomNavigationBar.menu.findItem(R.id.page_3).icon = getDrawable(R.drawable.ic_outline_settings_24)
-        if (currentFragment != loginFragment)
+        if (currentFragment != loginFragment) {
+            Log.d("currentFragment", currentFragment.toString())
             switchFragment(loginFragment)
+        }
     }
 
     /**
@@ -212,7 +220,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
      * @param bottomNavigationBar NavigationBarView Instance
      * @param topAppBar Toolbar Instance
      */
-    private fun navigationToSettingFragment(bottomNavigationBar: NavigationBarView, topAppBar: Toolbar) {
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun navigationToSettingFragment(
+        bottomNavigationBar: NavigationBarView,
+        topAppBar: Toolbar
+    ) {
         topAppBar.apply {
             title = getString(R.string.settings)
             subtitle = getString(R.string.settings_subtitle)
@@ -220,13 +232,15 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_outline_star_border_24)
         bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_outline_science_24)
         bottomNavigationBar.menu.findItem(R.id.page_3).icon = getDrawable(R.drawable.ic_baseline_settings_24)
-        if (currentFragment != settingsFragment)
+        if (currentFragment != settingsFragment) {
+            Log.d("currentFragment", currentFragment.toString())
             switchFragment(settingsFragment)
+        }
 
     }
 
 
-    // TODO FRAGMENT CONTROLLER
+// TODO FRAGMENT CONTROLLER
     /**
      * 用来控制Fragment的显示隐藏
      * 持久化Fragment
@@ -235,13 +249,15 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         val transaction: FragmentTransaction = supportFragmentManager
             .beginTransaction()
         transaction.apply {
-            add(R.id.fragment, loginFragment)
+            if (!loginFragment.isAdded)
+                add(R.id.fragment, loginFragment)
             // TODO Developing Fragment
             // add(R.id.fragment,DevelopingFragment)
-            add(R.id.fragment, settingsFragment)
-            hide(settingsFragment)
+            if (!settingsFragment.isAdded) {
+                add(R.id.fragment, settingsFragment)
+                hide(settingsFragment)
+            }
         }.commit()
-        //transaction.add(R.id.fragment, settingsFragment).commit()
     }
 
     /**
@@ -254,6 +270,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             .beginTransaction()
         if (!targetFragment.isAdded) {
             // TODO Exception Code
+            /*if (!settingsFragment.isAdded)
+                transaction.add(R.id.fragment, settingsFragment)
+            if (!settingsFragment.isHidden)
+                transaction.hide(settingsFragment)*/
             throw MyException(-256, "targetFragmentNotAdded")
         } else {
             transaction

@@ -37,8 +37,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
     /*    override fun getLayout(): Int {
             TODO("Not yet implemented")
         }*/
-    
 
+
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Thread {
@@ -55,6 +56,24 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
                     }
         }.start()
     }
+
+/*    // DEBUG Duplicate for test
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Thread {
+            if (user != null)
+                if (user!!.isRememberChecked)
+                    if (user!!.isAutoLoginChecked) {
+                        requireActivity().runOnUiThread {
+                            showLoginDialog(true)
+                        }
+                        // TODO Temporarily Set Sleep Time
+                        //  For Timeout From Java is 10s
+                        // sleep(13000)
+                        // finishAfterMS(3000)
+                    }
+        }.start()
+    }*/
 
     override fun initData() {
         LoginPresenter(this)
@@ -206,7 +225,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
          */
         binding.loginBtnLogin.apply {
             textSize = 15F
-            if (Build.VERSION.SDK_INT >= Constant.S)
+            if (Build.VERSION.SDK_INT >= S)
                 setTextAppearance(R.style.Material3Button)
             else {
                 setBackgroundColor(getColor(context, R.color.register_button))

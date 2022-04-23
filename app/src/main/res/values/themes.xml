@@ -2,17 +2,14 @@
     <!-- Base application theme. -->
     <style name="Theme.LoginDemo" parent="Theme.Material3.DayNight.NoActionBar" xmlns:android="http://schemas.android.com/apk/res/android">
         <item name="colorPrimary">@color/material_dynamic_primary60</item>
+        <item name="colorPrimaryDark">@color/material_dynamic_primary90</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/material_dynamic_primary50</item>
         <item name="colorSecondaryContainer">@color/material_dynamic_primary80</item>
 
         <!-- Customize your theme here. -->
 
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="android:statusBarColor">@color/material_dynamic_primary90</item>
-        <item name="android:navigationBarColor">@color/material_dynamic_primary90</item>
-        <item name="android:navigationBarDividerColor">@android:color/transparent</item>
-        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
 
