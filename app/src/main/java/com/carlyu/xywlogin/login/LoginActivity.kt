@@ -19,6 +19,7 @@ import com.carlyu.xywlogin.common.Constant.S
 import com.carlyu.xywlogin.common.Constant.buildVersion
 import com.carlyu.xywlogin.databinding.ActivityLoginBinding
 import com.carlyu.xywlogin.exception.MyException
+import com.carlyu.xywlogin.settings.SettingsFragment
 import com.carlyu.xywlogin.utils.ConnectUtils
 import com.carlyu.xywlogin.utils.toast
 import com.google.android.material.navigation.NavigationBarView
@@ -220,7 +221,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
      * @param bottomNavigationBar NavigationBarView Instance
      * @param topAppBar Toolbar Instance
      */
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint("UseCompatLoadingForDrawables", "RestrictedApi")
     private fun navigationToSettingFragment(
         bottomNavigationBar: NavigationBarView,
         topAppBar: Toolbar
@@ -228,6 +229,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         topAppBar.apply {
             title = getString(R.string.settings)
             subtitle = getString(R.string.settings_subtitle)
+
         }
         bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_outline_star_border_24)
         bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_outline_science_24)
@@ -251,7 +253,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         transaction.apply {
             if (!loginFragment.isAdded)
                 add(R.id.fragment, loginFragment)
-            // TODO Developing Fragment
+            // TODO
+            //  Add Developing Fragment
             // add(R.id.fragment,DevelopingFragment)
             if (!settingsFragment.isAdded) {
                 add(R.id.fragment, settingsFragment)

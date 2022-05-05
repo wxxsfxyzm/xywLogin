@@ -57,24 +57,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
         }.start()
     }
 
-/*    // DEBUG Duplicate for test
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Thread {
-            if (user != null)
-                if (user!!.isRememberChecked)
-                    if (user!!.isAutoLoginChecked) {
-                        requireActivity().runOnUiThread {
-                            showLoginDialog(true)
-                        }
-                        // TODO Temporarily Set Sleep Time
-                        //  For Timeout From Java is 10s
-                        // sleep(13000)
-                        // finishAfterMS(3000)
-                    }
-        }.start()
-    }*/
-
     override fun initData() {
         LoginPresenter(this)
     }

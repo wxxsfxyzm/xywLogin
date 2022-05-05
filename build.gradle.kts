@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     val kotlinVersion: String by extra
-    extra["kotlinVersion"] = "1.6.10"
+    extra["kotlinVersion"] = "1.6.20"
     repositories {
         mavenCentral()
         //  google仓库maven地址要放在google()的上边,不要更改顺序
