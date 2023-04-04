@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.LoginDemo" parent="Theme.Material3.DayNight.NoActionBar" xmlns:android="http://schemas.android.com/apk/res/android">
         <item name="colorPrimary">@color/material_dynamic_primary60</item>
@@ -26,7 +26,7 @@
         <!--
                 <item name="android:statusBarColor">@color/material_dynamic_primary90</item>
         -->
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightStatusBar">true</item>
         <!--        <item name="textAppearanceTitleLarge">@style/TextAppearance.App.TitleLarge</item>
                 <item name="textAppearanceTitleMedium">@style/TextAppearance.App.TitleMedium</item>-->
     </style>
@@ -43,7 +43,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <item name="colorSecondaryContainer">#039BE5</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="r">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <!--<item name="android:statusBarColor" tools:targetApi="r">?attr/colorPrimaryVariant</item>-->
         <!-- Customize your theme here. -->
         <item name="android:navigationBarColor">@android:color/transparent</item>
@@ -52,10 +52,9 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
         <!-- Android 6.0以上 状态栏字色和图标为浅黑色-->
-        <item name="android:windowLightStatusBar">true</item>
+        <!-- Deprecated: Already Set in Code -->
+        <!--<item name="android:windowLightStatusBar">true</item>-->
 
-        <item name="colorOnSurface">@color/colorAccent</item>
-        <item name="colorSurface">@color/white</item>
 
     </style>
 

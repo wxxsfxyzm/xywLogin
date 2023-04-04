@@ -7,6 +7,7 @@ import com.carlyu.xywlogin.databinding.FragmentSettingsBinding
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
+    // private val
 
     private val dataSet: Array<SettingsItems> = arrayOf(
         SettingsItems("test1", "test1Description", true),

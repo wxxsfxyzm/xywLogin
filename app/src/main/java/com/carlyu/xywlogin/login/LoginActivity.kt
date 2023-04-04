@@ -3,14 +3,12 @@ package com.carlyu.xywlogin.login
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.SystemClock.sleep
 import android.util.Log
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.carlyu.xywlogin.R
@@ -21,6 +19,7 @@ import com.carlyu.xywlogin.databinding.ActivityLoginBinding
 import com.carlyu.xywlogin.exception.MyException
 import com.carlyu.xywlogin.settings.SettingsFragment
 import com.carlyu.xywlogin.utils.ConnectUtils
+import com.carlyu.xywlogin.utils.isDarkMode
 import com.carlyu.xywlogin.utils.toast
 import com.google.android.material.navigation.NavigationBarView
 
@@ -79,21 +78,26 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     }
 
     override fun initViews() {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        // WindowCompat.setDecorFitsSystemWindows(window, false)
         // 设置状态栏和导航栏的底色，透明
-        window.statusBarColor = Color.TRANSPARENT
+/*        window.statusBarColor = Color.TRANSPARENT
 
         window.navigationBarColor = Color.TRANSPARENT
-        window.navigationBarDividerColor = Color.TRANSPARENT
+        window.navigationBarDividerColor = Color.TRANSPARENT*/
 
         //设置沉浸后状态栏和导航字体的颜色，
         ViewCompat.getWindowInsetsController(window.decorView)?.let { controller ->
-
-            //isAppearanceLightStatusBars = isBlack
-            //controller.isAppearanceLightNavigationBars = isBlack
+            if (isDarkMode(this)) {
+                controller.isAppearanceLightStatusBars = false
+                controller.isAppearanceLightNavigationBars = false
+            } else {
+                controller.isAppearanceLightStatusBars = true
+                controller.isAppearanceLightNavigationBars = true
+            }
         }
         addFragment()
         // switchFragment(currentFragment)
+
 
     }
 
@@ -111,8 +115,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         topAppBar.title = getString(R.string.login_xyw)
         topAppBar.subtitle = getString(R.string.app_intro)
 
+        // 对不支持MD3设计的设备适配
         if (buildVersion < S)
-            topAppBar.setBackgroundColor(getColor(R.color.white))
+            topAppBar.setBackgroundColor(getColor(R.color.status_bar_color))
 
         var isFavClicked = false
         topAppBar.setOnMenuItemClickListener { menuItem ->
@@ -229,7 +234,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         topAppBar.apply {
             title = getString(R.string.settings)
             subtitle = getString(R.string.settings_subtitle)
-
         }
         bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_outline_star_border_24)
         bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_outline_science_24)
@@ -252,12 +256,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             .beginTransaction()
         transaction.apply {
             if (!loginFragment.isAdded)
-                add(R.id.fragment, loginFragment)
+                add(R.id.fragment_container, loginFragment)
             // TODO
             //  Add Developing Fragment
             // add(R.id.fragment,DevelopingFragment)
             if (!settingsFragment.isAdded) {
-                add(R.id.fragment, settingsFragment)
+                add(R.id.fragment_container, settingsFragment)
                 hide(settingsFragment)
             }
         }.commit()
@@ -285,6 +289,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 .commit()
         }
         currentFragment = targetFragment
+    }
+
+    @SuppressLint("InternalInsetResource")
+    private fun getStatusBarHeight(): Int {
+        var height = 0
+        val resourceId: Int = resources.getIdentifier("status_bar_height", "dimen", "android")
+        Log.d("resourceId", resourceId.toString())
+        if (resourceId > 0) {
+            height = resources.getDimensionPixelSize(resourceId)
+        }
+        Log.d("height", height.toString())
+        return height
     }
 
 }

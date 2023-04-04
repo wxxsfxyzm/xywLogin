@@ -1,6 +1,8 @@
 package com.carlyu.xywlogin.utils
 
 import android.content.Context
+import android.content.res.Configuration
+import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
 import com.google.gson.Gson
@@ -28,4 +30,12 @@ fun dp2px(context: Context, dpVal: Float): Int {
 
 fun <T> jsonToList(jsonList: String): List<T> {
     return Gson().fromJson(jsonList, object : TypeToken<ArrayList<T>>() {}.type)
+}
+
+fun isDarkMode(context: Context): Boolean {
+    val currentNightMode = (context.resources.configuration.uiMode
+            and Configuration.UI_MODE_NIGHT_MASK)
+    val isDark = currentNightMode == Configuration.UI_MODE_NIGHT_YES
+    Log.d("isDark", isDark.toString())
+    return isDark
 }

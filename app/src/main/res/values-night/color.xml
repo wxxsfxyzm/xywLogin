@@ -10,4 +10,7 @@
     <color name="main_text_2">#999999</color>
     <!--    注册界面按钮颜色 -->
     <color name="register_button">@color/teal_700</color>
+
+    <color name="status_bar_color">#1B1818</color>
+
 </resources>

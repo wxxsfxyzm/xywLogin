@@ -95,5 +95,6 @@ android {
             androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.1.1")*/
         }
     }
+    namespace = "com.carlyu.xywlogin"
 
 }
