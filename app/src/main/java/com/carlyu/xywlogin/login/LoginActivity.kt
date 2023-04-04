@@ -97,8 +97,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         }
         addFragment()
         // switchFragment(currentFragment)
-
-
     }
 
     override fun getViewBinding(): ActivityLoginBinding {
@@ -157,7 +155,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                     R.id.page_2 -> {
                         // TODO Page Two
                         bottomNavigationBar.menu.findItem(R.id.page_1).icon = getDrawable(R.drawable.ic_outline_star_border_24)
-                        bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_baseline_science_24)
+                        bottomNavigationBar.menu.findItem(R.id.page_2).icon = getDrawable(R.drawable.ic_outline_science_24)
                         bottomNavigationBar.menu.findItem(R.id.page_3).icon = getDrawable(R.drawable.ic_outline_settings_24)
                         toast("别搞，还没写好")
                         true
@@ -289,18 +287,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 .commit()
         }
         currentFragment = targetFragment
-    }
-
-    @SuppressLint("InternalInsetResource")
-    private fun getStatusBarHeight(): Int {
-        var height = 0
-        val resourceId: Int = resources.getIdentifier("status_bar_height", "dimen", "android")
-        Log.d("resourceId", resourceId.toString())
-        if (resourceId > 0) {
-            height = resources.getDimensionPixelSize(resourceId)
-        }
-        Log.d("height", height.toString())
-        return height
     }
 
 }

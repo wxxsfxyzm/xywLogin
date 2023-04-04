@@ -6,9 +6,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/settings_fragment_recycler_view"
-        android:paddingTop="@dimen/padding_top_seventy_five"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/padding_top_seventy_five"
         android:layout_gravity="center_horizontal">
 
     </androidx.recyclerview.widget.RecyclerView>

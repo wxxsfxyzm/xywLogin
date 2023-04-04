@@ -1,5 +1,6 @@
 package com.carlyu.xywlogin.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
@@ -38,4 +39,14 @@ fun isDarkMode(context: Context): Boolean {
     val isDark = currentNightMode == Configuration.UI_MODE_NIGHT_YES
     Log.d("isDark", isDark.toString())
     return isDark
+}
+
+@SuppressLint("InternalInsetResource")
+fun getStatusBarHeight(context: Context): Int {
+    var height = 0
+    val resourceId: Int = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+    if (resourceId > 0) {
+        height = context.resources.getDimensionPixelSize(resourceId)
+    }
+    return height
 }

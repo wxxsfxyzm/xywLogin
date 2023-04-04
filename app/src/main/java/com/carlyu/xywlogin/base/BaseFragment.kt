@@ -25,9 +25,12 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = this.inflateBindingWithGeneric(layoutInflater)
         // return inflater.inflate(getLayout(), container, false)
         return binding.root
+        // Inflate the layout for this fragment
+
     }
 
 
