@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Notifications">
+        <SwitchPreference
+            android:key="notifications"
+            android:title="Enable notifications"
+            android:summary="Receive notifications when new content is available"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Appearance">
+        <ListPreference
+            android:key="theme"
+            android:title="Theme"
+            android:summary="Select a theme for the app"
+            android:entries="@array/theme_options"
+            android:entryValues="@array/theme_values"
+            android:defaultValue="@string/default_theme" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Account">
+        <Preference
+            android:key="sign_out"
+            android:title="Sign out" />
+    </PreferenceCategory>
+</PreferenceScreen>

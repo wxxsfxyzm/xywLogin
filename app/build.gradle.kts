@@ -76,6 +76,7 @@ android {
             testImplementation("junit:junit:4.13.2")
             androidTestImplementation("androidx.test.ext:junit:1.1.3")
             androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+            implementation("androidx.preference:preference:1.2.0")
 
 /*            // Jetpack Compose
             implementation("androidx.compose.ui:ui:1.1.1")
